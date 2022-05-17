@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.DAL.Entities
+namespace ChatApp.DAL.Interfaces
 {
-    internal class Class1
+    public class Placeholder5
     {
+
     }
 }
