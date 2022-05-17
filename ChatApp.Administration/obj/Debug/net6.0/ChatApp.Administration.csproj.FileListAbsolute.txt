@@ -1,0 +1,17 @@
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.csproj.AssemblyReference.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.AssemblyInfoInputs.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.AssemblyInfo.cs
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.csproj.CoreCompileInputs.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.Administration.deps.json
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.Administration.runtimeconfig.json
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.Administration.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.Administration.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.BLL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\bin\Debug\net6.0\ChatApp.BLL.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.csproj.CopyComplete
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\refint\ChatApp.Administration.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ChatApp.Administration.genruntimeconfig.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.Administration\obj\Debug\net6.0\ref\ChatApp.Administration.dll

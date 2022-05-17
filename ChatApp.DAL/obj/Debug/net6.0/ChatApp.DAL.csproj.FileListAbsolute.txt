@@ -1,0 +1,12 @@
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\bin\Debug\net6.0\ChatApp.DAL.deps.json
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\bin\Debug\net6.0\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\bin\Debug\net6.0\ChatApp.DAL.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.csproj.AssemblyReference.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.AssemblyInfoInputs.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.AssemblyInfo.cs
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.csproj.CoreCompileInputs.cache
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\refint\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ref\ChatApp.DAL.dll
