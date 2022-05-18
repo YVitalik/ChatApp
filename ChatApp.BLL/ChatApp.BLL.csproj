@@ -10,4 +10,8 @@
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChatApp.DAL\ChatApp.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

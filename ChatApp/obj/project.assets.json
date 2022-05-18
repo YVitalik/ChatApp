@@ -700,11 +700,27 @@
       "ChatApp.BLL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "ChatApp.DAL": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/ChatApp.BLL.dll": {}
         },
         "runtime": {
           "bin/placeholder/ChatApp.BLL.dll": {}
+        }
+      },
+      "ChatApp.DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5"
+        },
+        "compile": {
+          "bin/placeholder/ChatApp.DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ChatApp.DAL.dll": {}
         }
       }
     }
@@ -2002,6 +2018,11 @@
       "type": "project",
       "path": "../ChatApp.BLL/ChatApp.BLL.csproj",
       "msbuildProject": "../ChatApp.BLL/ChatApp.BLL.csproj"
+    },
+    "ChatApp.DAL/1.0.0": {
+      "type": "project",
+      "path": "../ChatApp.DAL/ChatApp.DAL.csproj",
+      "msbuildProject": "../ChatApp.DAL/ChatApp.DAL.csproj"
     }
   },
   "projectFileDependencyGroups": {

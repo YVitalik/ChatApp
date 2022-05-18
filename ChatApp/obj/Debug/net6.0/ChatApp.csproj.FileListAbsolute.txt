@@ -69,3 +69,5 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\ChatApp.BLL.pdb
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\obj\Debug\net6.0\ChatApp.csproj.CopyComplete
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Humanizer.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\ChatApp.DAL.pdb

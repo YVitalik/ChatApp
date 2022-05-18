@@ -495,8 +495,19 @@
         }
       },
       "ChatApp.BLL/1.0.0": {
+        "dependencies": {
+          "ChatApp.DAL": "1.0.0"
+        },
         "runtime": {
           "ChatApp.BLL.dll": {}
+        }
+      },
+      "ChatApp.DAL/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5"
+        },
+        "runtime": {
+          "ChatApp.DAL.dll": {}
         }
       }
     }
@@ -842,6 +853,11 @@
       "sha512": ""
     },
     "ChatApp.BLL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ChatApp.DAL/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

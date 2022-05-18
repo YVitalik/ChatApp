@@ -10,3 +10,6 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\obj\Debug\net6.0\ChatApp.BLL.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\obj\Debug\net6.0\refint\ChatApp.BLL.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\obj\Debug\net6.0\ChatApp.BLL.pdb
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\obj\Debug\net6.0\ref\ChatApp.BLL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\bin\Debug\net6.0\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\bin\Debug\net6.0\ChatApp.DAL.pdb
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.BLL\obj\Debug\net6.0\ChatApp.BLL.csproj.CopyComplete
