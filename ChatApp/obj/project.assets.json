@@ -682,21 +682,6 @@
           }
         }
       },
-      "ChatApp.Administration/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "ChatApp.BLL": "1.0.0",
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.5"
-        },
-        "compile": {
-          "bin/placeholder/ChatApp.Administration.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ChatApp.Administration.dll": {}
-        }
-      },
       "ChatApp.BLL/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -714,7 +699,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5"
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.5"
         },
         "compile": {
           "bin/placeholder/ChatApp.DAL.dll": {}
@@ -2009,11 +1995,6 @@
         "version.txt"
       ]
     },
-    "ChatApp.Administration/1.0.0": {
-      "type": "project",
-      "path": "../ChatApp.Administration/ChatApp.Administration.csproj",
-      "msbuildProject": "../ChatApp.Administration/ChatApp.Administration.csproj"
-    },
     "ChatApp.BLL/1.0.0": {
       "type": "project",
       "path": "../ChatApp.BLL/ChatApp.BLL.csproj",
@@ -2027,7 +2008,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "ChatApp.Administration >= 1.0.0",
+      "ChatApp.BLL >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.5"
     ]
   },
@@ -2058,8 +2039,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp.Administration\\ChatApp.Administration.csproj": {
-              "projectPath": "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp.Administration\\ChatApp.Administration.csproj"
+            "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp.BLL\\ChatApp.BLL.csproj": {
+              "projectPath": "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp.BLL\\ChatApp.BLL.csproj"
             }
           }
         }

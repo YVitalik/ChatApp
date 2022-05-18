@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChatApp.Administration\ChatApp.Administration.csproj" />
+    <ProjectReference Include="..\ChatApp.BLL\ChatApp.BLL.csproj" />
   </ItemGroup>
 
 </Project>

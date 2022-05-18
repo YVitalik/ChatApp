@@ -1,23 +1,11 @@
-using ChatApp.Administration;
-using ChatApp.Administration.Interfaces;
-using ChatApp.Administration.Services;
-using ChatApp.DAL.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using ChatApp.BLL.Interfaces;
+using ChatApp.BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-
-builder.Services.AddDbContext<DbContextIdentity>(options => 
-            options.UseSqlServer(builder.Configuration.GetConnectionString("ChatApp")));
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{
-    options.Password.RequiredLength = 5;
-}).AddEntityFrameworkStores<DbContextIdentity>().AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IUserService, UserService>();
 
