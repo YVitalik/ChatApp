@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.DAL", "ChatApp.DAL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.Administration", "ChatApp.Administration\ChatApp.Administration.csproj", "{942290CD-A301-4374-B292-72122EF068B4}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ChatApp.Database", "Database1\ChatApp.Database.sqlproj", "{6B851E92-86BE-44DE-9EC6-92BDAC024B86}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +33,6 @@ Global
 		{942290CD-A301-4374-B292-72122EF068B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{942290CD-A301-4374-B292-72122EF068B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{942290CD-A301-4374-B292-72122EF068B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B851E92-86BE-44DE-9EC6-92BDAC024B86}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
