@@ -6,7 +6,7 @@
     <Name>ChatApp.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{104c8cfe-aaf1-4bfa-80ba-f54514bd7c81}</ProjectGuid>
+    <ProjectGuid>{61bd43d5-43f4-419a-b016-34b867c2dece}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -58,24 +58,20 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Tables\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\__EFMigrationsHistory.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Tables\AspNetRoleClaims.sql" />
-    <Build Include="Tables\AspNetRoles.sql" />
-    <Build Include="Tables\AspNetUserClaims.sql" />
-    <Build Include="Tables\AspNetUserLogins.sql" />
-    <Build Include="Tables\AspNetUserRoles.sql" />
-    <Build Include="Tables\AspNetUsers.sql" />
-    <Build Include="Tables\AspNetUserTokens.sql" />
-    <Build Include="Tables\Chats.sql" />
-    <Build Include="Tables\ChatUsers.sql" />
-    <Build Include="Tables\Messages.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="ChatApp.Database.refactorlog" />
+    <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\Chats.sql" />
+    <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserTokens.sql" />
+    <Build Include="dbo\Tables\ChatUsers.sql" />
+    <Build Include="dbo\Tables\Messages.sql" />
   </ItemGroup>
 </Project>

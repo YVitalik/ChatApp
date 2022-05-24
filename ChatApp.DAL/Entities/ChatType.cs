@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.DAL.Interfaces
+namespace ChatApp.DAL.Entities
 {
-    public class Placeholder5
+    public enum ChatType
     {
-
+        Room,
+        Private
     }
 }

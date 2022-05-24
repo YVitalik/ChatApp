@@ -1,22 +1,20 @@
 ﻿using ChatApp.BLL.CustomExceptions;
 using ChatApp.BLL.DTOs.AdministrationDTOs;
 using ChatApp.BLL.Interfaces;
+using ChatApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatApp.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public UserService(UserManager<IdentityUser> userManager,
-                           RoleManager<IdentityRole> roleManager)
+        private readonly UserManager<User> _userManager;
+        public UserService(UserManager<User> userManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
-        public async Task<IdentityUser> Login(LoginDTO login)
+        public async Task<User> Login(LoginDTO login)
         {
             var user = _userManager.Users.FirstOrDefault(x => x.UserName == login.Username);
 
@@ -33,13 +31,14 @@ namespace ChatApp.BLL.Services
         public async Task<string> Register(RegisterDTO user)
         {
             var check = _userManager.Users.FirstOrDefault(x => x.UserName == user.Username || x.Email == user.Email);
+            
             if (check != null)
             {
                 throw new UsernameAlreadyExistsException("Username is already in use, please choose other!");
             }
 
-            var identityUser = new IdentityUser { UserName = user.Username, Email = user.Email };
-            var result = await _userManager.CreateAsync(identityUser, user.Password);
+            var newUser = new User { UserName = user.Username, Email = user.Email };
+            var result = await _userManager.CreateAsync(newUser, user.Password);
 
             if (result.Succeeded)
             {

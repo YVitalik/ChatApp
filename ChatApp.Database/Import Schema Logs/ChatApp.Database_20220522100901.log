@@ -1,0 +1,87 @@
+22.05.2022 13:09:01	This log contains information about the import schema operation into project 'ChatApp.Database' on computer 'DESKTOP-9G99FJ2' by user 'yuzef'.
+22.05.2022 13:09:01	Import of database schema has started.
+22.05.2022 13:09:16	Gathering database credentials
+22.05.2022 13:09:16	Gathering database options
+22.05.2022 13:09:16	Gathering generic database scoped configuration option
+22.05.2022 13:09:16	Gathering users
+22.05.2022 13:09:16	Gathering roles
+22.05.2022 13:09:16	Gathering application roles
+22.05.2022 13:09:16	Gathering role memberships
+22.05.2022 13:09:16	Gathering filegroups
+22.05.2022 13:09:16	Gathering full-text catalogs
+22.05.2022 13:09:16	Gathering assemblies
+22.05.2022 13:09:16	Gathering certificates
+22.05.2022 13:09:16	Gathering asymmetric keys
+22.05.2022 13:09:16	Gathering symmetric keys
+22.05.2022 13:09:16	Gathering encrypted symmetric keys
+22.05.2022 13:09:16	Gathering schemas
+22.05.2022 13:09:16	Gathering XML schema collections
+22.05.2022 13:09:16	Gathering user-defined data types
+22.05.2022 13:09:16	Gathering user-defined types
+22.05.2022 13:09:16	Gathering table types
+22.05.2022 13:09:16	Gathering unique keys for table types
+22.05.2022 13:09:16	Gathering primary keys for table types
+22.05.2022 13:09:16	Gathering indexes for table types
+22.05.2022 13:09:17	Gathering check constraints for table types
+22.05.2022 13:09:17	Gathering default constraints for table types
+22.05.2022 13:09:18	Gathering partition functions
+22.05.2022 13:09:18	Gathering partition schemes
+22.05.2022 13:09:18	Gathering functions
+22.05.2022 13:09:18	Gathering encrypted functions
+22.05.2022 13:09:18	Gathering aggregates
+22.05.2022 13:09:18	Gathering procedures
+22.05.2022 13:09:18	Gathering encrypted procedures
+22.05.2022 13:09:18	Gathering tables
+22.05.2022 13:09:18	Gathering primary keys
+22.05.2022 13:09:18	Gathering unique constraints
+22.05.2022 13:09:18	Gathering foreign keys
+22.05.2022 13:09:18	Gathering default constraints
+22.05.2022 13:09:18	Gathering check constraints
+22.05.2022 13:09:18	Gathering views
+22.05.2022 13:09:18	Gathering encrypted views
+22.05.2022 13:09:18	Gathering indexes
+22.05.2022 13:09:18	Gathering statistics
+22.05.2022 13:09:18	Gathering full-text index stoplists
+22.05.2022 13:09:18	Gathering search property lists
+22.05.2022 13:09:18	Gathering search properties
+22.05.2022 13:09:18	Gathering full-text indexes
+22.05.2022 13:09:18	Gathering column store indexes
+22.05.2022 13:09:18	Gathering spatial indexes
+22.05.2022 13:09:18	Gathering XML indexes
+22.05.2022 13:09:18	Gathering Selective XML indexes
+22.05.2022 13:09:18	Gathering encrypted triggers
+22.05.2022 13:09:18	Gathering triggers
+22.05.2022 13:09:18	Gathering encrypted and clr ddl triggers
+22.05.2022 13:09:18	Gathering ddl triggers
+22.05.2022 13:09:18	Creating edge constraints
+22.05.2022 13:09:18	Gathering synonyms
+22.05.2022 13:09:18	Gathering defaults
+22.05.2022 13:09:18	Gathering data constraint uddt bindings
+22.05.2022 13:09:18	Gathering rules
+22.05.2022 13:09:18	Gathering data constraint uddt bindings
+22.05.2022 13:09:18	Gathering message types
+22.05.2022 13:09:18	Gathering queues
+22.05.2022 13:09:18	Gathering contracts
+22.05.2022 13:09:19	Gathering services
+22.05.2022 13:09:19	Gathering event notifications
+22.05.2022 13:09:19	Gathering remote service bindings
+22.05.2022 13:09:19	Gathering broker priorities
+22.05.2022 13:09:19	Gathering signatures
+22.05.2022 13:09:19	Gathering data compression options
+22.05.2022 13:09:19	Gathering sequence types
+22.05.2022 13:09:19	Gathering security policies
+22.05.2022 13:09:19	Gather column encryption keys
+22.05.2022 13:09:19	Gathering column master keys
+22.05.2022 13:09:19	Gathering external data sources
+22.05.2022 13:09:19	Gathering external file formats
+22.05.2022 13:09:19	Gathering external tables
+22.05.2022 13:09:19	Gathering extended properties
+22.05.2022 13:09:19	Gathering assemblies
+22.05.2022 13:09:19	Gathering credentials
+22.05.2022 13:09:19	Gathering logins
+22.05.2022 13:09:19	Gathering server audits
+22.05.2022 13:09:22	Scanning project for duplicate elements
+22.05.2022 13:09:22	Finished duplicate element processing
+22.05.2022 13:09:23	Finished importing database.
+22.05.2022 13:09:23	A summary of the import was saved to the following location: C:\Users\yuzef\source\repos\ChatApp\ChatApp.Database\Import Schema Logs\ChatApp.Database_20220522100901.log
+22.05.2022 13:09:23	Click Finish to continue...

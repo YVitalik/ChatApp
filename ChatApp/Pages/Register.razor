@@ -1,0 +1,41 @@
+﻿@page "/register"
+@using ChatApp.BLL.DTOs.AdministrationDTOs
+@using ChatApp.BLL.Interfaces
+@using ChatApp.BLL.Services
+@using Newtonsoft.Json
+@using System.Text
+@inject NavigationManager NavManager
+
+<EditForm Model="RegisterUserDto" OnValidSubmit="OnValid" style="max-width:500px;">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="mb-2">
+		<InputText class="form-control" @bind-Value="RegisterUserDto.Username" placeholder="Username"></InputText>
+	</div>
+	<div class="mb-2">
+		<InputText class="form-control" @bind-Value="RegisterUserDto.Password" placeholder="Enter Password"></InputText>
+	</div>
+	<div class="mb-2">
+		<InputText class="form-control" @bind-Value="RegisterUserDto.Email" placeholder="Email"></InputText>
+	</div>
+	<div class="mb-2 text-right">
+		<button class="btn btn-secondary">Register</button>
+	</div>
+</EditForm>
+
+@code {
+    
+    [Inject] private HttpClient _httpClient { get; set; }
+
+    private RegisterDTO RegisterUserDto = new RegisterDTO();
+
+    private async void OnValid()
+    {
+        var response = await _httpClient.PostAsync("https://localhost:7194/chatapi/account/register", new StringContent(JsonConvert.SerializeObject(RegisterUserDto), Encoding.UTF8, "application/json"));
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavManager.NavigateTo("/");
+        }
+    }
+}

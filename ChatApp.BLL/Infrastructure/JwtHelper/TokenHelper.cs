@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChatApp.DAL.Entities
+namespace ChatApp.BLL.Infrastructure.JwtHelper
 {
-    public class Placeholder4
+    public class TokenHelper
     {
-
+        public string Token { get; set; }
     }
 }

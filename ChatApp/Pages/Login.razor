@@ -1,0 +1,37 @@
+﻿@page "/login"
+@using ChatApp.BLL.DTOs.AdministrationDTOs
+@using ChatApp.BLL.Infrastructure.JwtHelper
+@using ChatApp.BLL.Interfaces
+@using ChatApp.BLL.Services
+@using Newtonsoft.Json
+@using System.Text
+@inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<EditForm Model="LoginUserDto" OnValidSubmit="OnValid" style="max-width:500px;">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="mb-2">
+		<InputText class="form-control" @bind-Value="LoginUserDto.Username" placeholder="Username"></InputText>
+	</div>
+	<div class="mb-2">
+		<InputText class="form-control" @bind-Value="LoginUserDto.Password" placeholder="Enter Password"></InputText>
+	</div>
+	<div class="mb-2 text-right">
+		<button class="btn btn-secondary">Login</button>
+	</div>
+</EditForm>
+
+@code {
+
+	[Inject] private IUserStateService _userStateService { get; set; }
+
+	private LoginDTO LoginUserDto = new LoginDTO();
+
+	private async void OnValid()
+	{
+		await _userStateService.Login(LoginUserDto);
+
+		NavManager.NavigateTo("/");
+	}
+}

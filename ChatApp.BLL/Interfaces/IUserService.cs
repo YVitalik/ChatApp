@@ -1,11 +1,11 @@
 ﻿using ChatApp.BLL.DTOs.AdministrationDTOs;
-using Microsoft.AspNetCore.Identity;
+using ChatApp.DAL.Entities;
 
 namespace ChatApp.BLL.Interfaces
 {
     public interface IUserService
     {
         Task<string> Register(RegisterDTO user);
-        Task<IdentityUser> Login(LoginDTO login);
+        Task<User> Login(LoginDTO login);
     }
 }

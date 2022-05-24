@@ -10,3 +10,5 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\refint\ChatApp.DAL.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.pdb
 C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ref\ChatApp.DAL.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\bin\Debug\net6.0\ChatApp.DAL.runtimeconfig.json
+C:\Users\yuzef\source\repos\ChatApp\ChatApp.DAL\obj\Debug\net6.0\ChatApp.DAL.genruntimeconfig.cache
