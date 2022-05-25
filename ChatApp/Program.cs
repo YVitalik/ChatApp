@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Blazored.LocalStorage;
+using ChatApp.DAL.Infrastructure.Repositories;
+using ChatApp.DAL.Interfaces;
+using ChatApp.DAL.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,9 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserStateService, UserStateService>();
+builder.Services.AddTransient<IRoomRepository, RoomRepository>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IChatService, ChatService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

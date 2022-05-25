@@ -21,12 +21,6 @@
 	</div>
 </EditForm>
 
-<EditForm Model="LoginUserDto" OnValidSubmit="OnTest" style="max-width:500px;">
-	<div class="mb-2 text-right">
-		<button class="btn btn-secondary">Login</button>
-	</div>
-</EditForm>
-
 @code {
 
 	[Inject] private IUserStateService _userStateService { get; set; }
@@ -38,10 +32,5 @@
 		await _userStateService.Login(LoginUserDto);
 
 		NavManager.NavigateTo("/");
-	}
-
-	private async void OnTest()
-	{
-		await _userStateService.SendTest();
 	}
 }
