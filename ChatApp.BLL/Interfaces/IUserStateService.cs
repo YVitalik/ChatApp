@@ -11,5 +11,6 @@ namespace ChatApp.BLL.Interfaces
     {
         Task<string> Login(LoginDTO loginDetails);
         Task<string> Register(RegisterDTO registerDetails);
+        Task Logout();
     }
 }

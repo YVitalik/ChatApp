@@ -4,12 +4,11 @@ using System.Text;
 using Blazored.LocalStorage;
 using Newtonsoft.Json;
 using ChatApp.BLL.Infrastructure.JwtHelper;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using ChatApp.BLL.Infrastructure.RequestHelper;
 
 namespace ChatApp.BLL.Services
 {
-    public class UserStateService : IUserStateService
+    public class UserStateService : AuthorizationHelper ,IUserStateService
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
@@ -27,7 +26,6 @@ namespace ChatApp.BLL.Services
             if (response.IsSuccessStatusCode)
             {
                 await SaveToken(response);
-                await SetAuthorizationHeader();
             }
 
             return "Something went wrong!";
@@ -46,6 +44,11 @@ namespace ChatApp.BLL.Services
             return "Something went wrong!";
         }
 
+        public async Task Logout()
+        {
+            await _localStorage.ClearAsync();
+        }
+
         private async Task SaveToken(HttpResponseMessage response)
         {
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -53,14 +56,6 @@ namespace ChatApp.BLL.Services
 
             await _localStorage.SetItemAsync("authToken", tokenHelper.Token);
         }
-
-        private async Task SetAuthorizationHeader()
-        {
-            if (!_httpClient.DefaultRequestHeaders.Contains("Authorization"))
-            {
-                var token = await _localStorage.GetItemAsync<string>("authToken");
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-        }
+        
     }
 }

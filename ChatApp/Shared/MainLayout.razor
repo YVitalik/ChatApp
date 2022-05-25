@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using ChatApp.BLL.Interfaces
+@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <PageTitle>ChatApp</PageTitle>
 
@@ -8,12 +10,27 @@
     </div>
 
     <main>
+
+        
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a href="/register" class="btn btn-primary">Register</a>
+            <a href="/login" class="btn btn-primary">Login</a>
+            <button @onclick="Logout" class="btn btn-danger m-lg-2">Logout</button>
         </div>
+        
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code{
+
+    [Inject] private IUserStateService _userStateService { get; set; }
+
+    private async Task Logout()
+    {
+        await _userStateService.Logout();
+    }
+}
