@@ -1,0 +1,32 @@
+﻿@page "/createpublic"
+@using ChatApp.BLL.Interfaces
+@inject NavigationManager NavManager
+
+<div class="form-group">
+      <input @bind:event="oninput" @bind="chatName" />
+</div>
+<br />
+<button type="submit" @onclick="OnValid" class="btn btn-success">
+      Create
+</button>
+
+@code{
+	[Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+
+	private string? chatName;
+
+	private async void OnValid()
+	{
+		var result = await _intermediateChatService.CreatePublicChat(chatName);
+
+		if (result)
+		{
+			NavManager.NavigateTo("/");
+		}
+
+		else
+		{
+			NavManager.NavigateTo("/createpublic");
+		}
+	}
+}

@@ -25,17 +25,14 @@
 
 @code {
     
-    [Inject] private HttpClient _httpClient { get; set; }
+	[Inject] private IUserStateService _userStateService { get; set; }
 
-    private RegisterDTO RegisterUserDto = new RegisterDTO();
+	private RegisterDTO RegisterUserDto = new RegisterDTO();
 
-    private async void OnValid()
-    {
-        var response = await _httpClient.PostAsync("https://localhost:7194/chatapi/account/register", new StringContent(JsonConvert.SerializeObject(RegisterUserDto), Encoding.UTF8, "application/json"));
+	private async void OnValid()
+	{
+		await _userStateService.Register(RegisterUserDto);
 
-        if (response.IsSuccessStatusCode)
-        {
-            NavManager.NavigateTo("/");
-        }
-    }
+		NavManager.NavigateTo("/");
+	}
 }
