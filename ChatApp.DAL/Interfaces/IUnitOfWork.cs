@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChatApp.DAL.Interfaces
+﻿namespace ChatApp.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
         IRoomRepository Room { get; }
+        IMessageRepository Message { get; }
         Task<int> SaveChangesAsync();
     }
 }

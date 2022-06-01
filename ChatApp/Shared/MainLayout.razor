@@ -10,27 +10,8 @@
     </div>
 
     <main>
-
-        
-        <div class="top-row px-4">
-            <a href="/register" class="btn btn-primary">Register</a>
-            <a href="/login" class="btn btn-primary">Login</a>
-            <button @onclick="Logout" class="btn btn-danger m-lg-2">Logout</button>
-        </div>
-        
-
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
-
-@code{
-
-    [Inject] private IUserStateService _userStateService { get; set; }
-
-    private async Task Logout()
-    {
-        await _userStateService.Logout();
-    }
-}

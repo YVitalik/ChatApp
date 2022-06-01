@@ -13,6 +13,8 @@ using ChatApp.DAL.Infrastructure.Repositories;
 using ChatApp.DAL.Interfaces;
 using ChatApp.DAL.Infrastructure;
 using ChatApp.IntermediateServices;
+using ChatApp.BLL;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +22,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
+builder.Services.AddAutoMapper(typeof(AutomapperProfile));
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserStateService, UserStateService>();
 builder.Services.AddTransient<IRoomRepository, RoomRepository>();
+builder.Services.AddTransient<IMessageRepository, MessageRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddTransient<IIntermediateChatService, IntermediateChatService>();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

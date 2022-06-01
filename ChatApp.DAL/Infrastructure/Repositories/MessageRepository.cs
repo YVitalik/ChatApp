@@ -12,35 +12,22 @@ namespace ChatApp.DAL.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddMessage(Message newMessage)
+        public async Task AddMessage(int chatId, string messageText, string userId)
         {
-            await _context.AddAsync(newMessage);
+            var message = new Message
+            {
+                ChatId = chatId,
+                Text = messageText,
+                Name = userId,
+                CreatedAt = DateTime.Now
+            };
+
+            await _context.Messages.AddAsync(message);
         }
 
-        public async Task<int> DeleteMessage(int id)
+        public async Task<IEnumerable<Message>> GetChatMessages(int chatId)
         {
-            var message = await _context.Messages.FindAsync(id);
-            
-            if (message == null)
-                throw new ArgumentNullException("Message with such id doesn't exist!");
-
-            _context.Messages.Remove(message);
-
-            return message.Id;
-        }
-
-        public async Task<IEnumerable<Message>> GetAllMessages() => await _context.Messages.ToListAsync();
-
-        public async Task<int> UpdateMessage(int id, string text)
-        {
-            var message = await _context.Messages.FindAsync(id);
-
-            if (message == null)
-                throw new ArgumentNullException("Message with such id doesn't exist!");
-
-            message.Text = text;
-
-            return message.Id;
+            return await _context.Messages.Where(x => x.ChatId == chatId).ToListAsync();
         }
     }
 }

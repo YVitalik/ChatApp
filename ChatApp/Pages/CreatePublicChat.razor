@@ -1,32 +1,121 @@
 ﻿@page "/createpublic"
+@using ChatApp.BLL.DTOs.ChatDTOs
 @using ChatApp.BLL.Interfaces
 @inject NavigationManager NavManager
 
-<div class="form-group">
-      <input @bind:event="oninput" @bind="chatName" />
+<div class="row">
+    
+    @if (_userChats == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="col">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">My chats</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chat in _userChats)
+                {
+                    <tr>
+                        <td>@chat.Name</td>
+                        <td><button class="btn btn-success">Open chat</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    }
+
+    @if (_allChats == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="col">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Available chats</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chat in _allChats)
+                {
+                    <tr>
+                        <td>@chat.Name</td>
+                        <td><button @onclick="() => JoinRoom(chat.Id)" class="btn btn-success">Join this chat</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    }
+
 </div>
-<br />
-<button type="submit" @onclick="OnValid" class="btn btn-success">
-      Create
+
+<div class="form-group mb-2">
+  <input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="chatName" />
+</div>
+<button type="submit" @onclick="CreatePublic" class="btn btn-success mb-2">
+  Create new public chat and join
 </button>
 
 @code{
-	[Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
-	private string? chatName;
+    private IEnumerable<ReadChatDto>? _allChats;
+    private IEnumerable<ReadChatDto>? _userChats;
 
-	private async void OnValid()
-	{
-		var result = await _intermediateChatService.CreatePublicChat(chatName);
+    private string? chatName;
 
-		if (result)
-		{
-			NavManager.NavigateTo("/");
-		}
+    private async void CreatePublic()
+    {
+        var result = await _intermediateChatService.CreatePublicChat(chatName);
 
-		else
-		{
-			NavManager.NavigateTo("/createpublic");
-		}
-	}
+        if (result)
+        {
+            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/createpublic");
+        }
+
+        else
+        {
+            NavManager.NavigateTo("/createpublic");
+        }
+    }
+
+    private async void JoinRoom(int chatId)
+    {
+        var isJoinedSuccesfully = await _intermediateChatService.JoinRoom(chatId);
+
+        if (isJoinedSuccesfully)
+        {
+            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/createpublic");
+        }
+
+        else
+        {
+            NavManager.NavigateTo("/createpublic");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _allChats = await _intermediateChatService.GetAllPublicChats();
+            _userChats = await _intermediateChatService.GetUserPublicChats();
+            StateHasChanged();
+        }
+    }
+
 }

@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "xy/cD7zGAzKvwWsVmAXGP2KkCyo5+vOGqS5OVfLDgXx9U2BANcSycGoEt3+8Cu4CabtUXRwuxjMGef9D3nC/Hg==",
+  "dgSpecHash": "GPtoBOkSVvJYpkbkw6wfdGvo5Zr2LHsjjEdgHFIAshvtNw3Nope+5M+Ko0iDlEsnT+hbufuYyUZKDG6FIe4ddg==",
   "success": true,
   "projectFilePath": "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp\\ChatApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\yuzef\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\blazored.localstorage\\4.2.0\\blazored.localstorage.4.2.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.authentication.certificate\\6.0.5\\microsoft.aspnetcore.authentication.certificate.6.0.5.nupkg.sha512",
@@ -17,7 +19,7 @@
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.5\\microsoft.aspnetcore.cryptography.keyderivation.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.5\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.metadata\\6.0.0\\microsoft.aspnetcore.metadata.6.0.0.nupkg.sha512",
-    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.5\\microsoft.entityframeworkcore.6.0.5.nupkg.sha512",

@@ -4,9 +4,7 @@ namespace ChatApp.DAL.Interfaces
 {
     public interface IMessageRepository
     {
-        Task AddMessage(Message newMessage);
-        Task<int> DeleteMessage(int id);
-        Task<int> UpdateMessage(int id, string text);
-        Task<IEnumerable<Message>> GetAllMessages();
+        Task AddMessage(int chatId, string messageText, string userId);
+        Task<IEnumerable<Message>> GetChatMessages(int chatId); 
     }
 }

@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ChatApp.BLL.DTOs.ChatDTOs;
+using ChatApp.DAL.Entities;
 
 namespace ChatApp.BLL.Interfaces
 {
     public interface IChatService
     {
         Task CreatePublicRoom(string name, string userId);
+        Task<IEnumerable<ReadChatDto>> GetAllPublicChats(string userId);
+        Task<IEnumerable<ReadChatDto>> GetUserPublicChats(string userId);
+        Task CreatePrivateRoom(string rootId, string targetId);
+        Task<IEnumerable<Chat>> GetPrivateChats(string userId);
+        Task JoinRoom(int chatId, string userId);
+        Task AddMessage(int chatId, string messageText, string userId);
+        Task<IEnumerable<ReadMessageDto>> GetChatMessages(int chatId);
     }
 }

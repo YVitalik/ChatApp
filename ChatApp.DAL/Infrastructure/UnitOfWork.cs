@@ -6,10 +6,12 @@ namespace ChatApp.DAL.Infrastructure
     {
         private readonly AppDbContext _context;
         public IRoomRepository Room { get; }
-        public UnitOfWork(AppDbContext context, IRoomRepository room)
+        public IMessageRepository Message { get; }
+        public UnitOfWork(AppDbContext context, IRoomRepository room, IMessageRepository message)
         {
             _context = context;
             Room = room;
+            Message = message;
         }
 
         public async Task<int> SaveChangesAsync()
