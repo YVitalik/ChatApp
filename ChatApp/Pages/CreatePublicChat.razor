@@ -1,7 +1,13 @@
 ﻿@page "/createpublic"
+@using ChatApp.BLL.DTOs
 @using ChatApp.BLL.DTOs.ChatDTOs
 @using ChatApp.BLL.Interfaces
 @inject NavigationManager NavManager
+@inherits Base
+
+@{
+    base.BuildRenderTree(__builder);
+}
 
 <div class="row">
     
@@ -78,42 +84,28 @@
 
     private async void CreatePublic()
     {
-        var result = await _intermediateChatService.CreatePublicChat(chatName);
-
-        if (result)
-        {
-            NavManager.NavigateTo("/");
+        ServerResponse result = await _intermediateChatService.CreatePublicChat(chatName);
+        CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
             NavManager.NavigateTo("/createpublic");
-        }
-
-        else
-        {
-            NavManager.NavigateTo("/createpublic");
-        }
+        });
     }
 
     private async void JoinRoom(int chatId)
     {
-        var isJoinedSuccesfully = await _intermediateChatService.JoinRoom(chatId);
-
-        if (isJoinedSuccesfully)
-        {
-            NavManager.NavigateTo("/");
+        ServerResponse result = await _intermediateChatService.JoinRoom(chatId);
+        CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
             NavManager.NavigateTo("/createpublic");
-        }
-
-        else
-        {
-            NavManager.NavigateTo("/createpublic");
-        }
+        });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _allChats = await _intermediateChatService.GetAllPublicChats();
-            _userChats = await _intermediateChatService.GetUserPublicChats();
+            ServerResponseWithChats getAllChats = await _intermediateChatService.GetAllPublicChats();
+            ServerResponseWithChats getUserChats = await _intermediateChatService.GetUserPublicChats();
+            CheckIfUserHasAccess(getAllChats, () => { _allChats = getAllChats.Chats; });
+            CheckIfUserHasAccess(getUserChats, () => { _userChats = getUserChats.Chats; });
             StateHasChanged();
         }
     }

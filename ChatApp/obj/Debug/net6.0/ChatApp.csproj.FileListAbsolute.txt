@@ -75,3 +75,13 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCor
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.Extensions.Features.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\System.IO.Pipelines.dll

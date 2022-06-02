@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using ChatApp.BLL.DTOs.ChatDTOs;
+using ChatApp.BLL.DTOs;
 using ChatApp.BLL.Infrastructure.RequestHelper;
 using ChatApp.BLL.Interfaces;
 using Newtonsoft.Json;
@@ -19,7 +20,7 @@ namespace ChatApp.IntermediateServices
             _httpClient = httpClient;
         }
         
-        public async Task<bool> CreatePublicChat(string chatName)
+        public async Task<ServerResponse> CreatePublicChat(string chatName)
         {
             var createPublicChatUrl = _baseUrl + "createpublic/" + chatName;
 
@@ -27,20 +28,14 @@ namespace ChatApp.IntermediateServices
 
             var response = await _httpClient.GetAsync(createPublicChatUrl);
 
-            if (response.IsSuccessStatusCode)
+            return new ServerResponse
             {
-                Console.WriteLine("Created succesfully!");
-                return true;
-            }
-
-            else
-            {
-                Console.WriteLine(response.StatusCode);
-                return false;
-            }
+                StatusCode = response.StatusCode
+            };
+            
         }
 
-        public async Task<IEnumerable<ReadChatDto>> GetAllPublicChats()
+        public async Task<ServerResponseWithChats> GetAllPublicChats()
         {
             var getAllPublicChatsUrl = _baseUrl + "getallpublic";
 
@@ -51,10 +46,14 @@ namespace ChatApp.IntermediateServices
 
             var publicChats = JsonConvert.DeserializeObject<IEnumerable<ReadChatDto>>(responseContent);
 
-            return publicChats;
+            return new ServerResponseWithChats
+            {
+                StatusCode = response.StatusCode,
+                Chats = publicChats
+            };
         }
 
-        public async Task<IEnumerable<ReadChatDto>> GetUserPublicChats()
+        public async Task<ServerResponseWithChats> GetUserPublicChats()
         {
             var getAllUserChatsUrl = _baseUrl + "getuserpublic";
 
@@ -65,10 +64,14 @@ namespace ChatApp.IntermediateServices
 
             var publicUserChats = JsonConvert.DeserializeObject<IEnumerable<ReadChatDto>>(responseContent);
 
-            return publicUserChats;
+            return new ServerResponseWithChats
+            {
+                StatusCode = response.StatusCode,
+                Chats = publicUserChats
+            };
         }
 
-        public async Task<bool> JoinRoom(int chatId)
+        public async Task<ServerResponse> JoinRoom(int chatId)
         {
             var joinPublicRoomUrl = _baseUrl + "joinroom/" + chatId;
 
@@ -76,17 +79,10 @@ namespace ChatApp.IntermediateServices
 
             var response = await _httpClient.GetAsync(joinPublicRoomUrl);
 
-            if (response.IsSuccessStatusCode)
+            return new ServerResponse
             {
-                Console.WriteLine("You have joined succesfully!");
-                return true;
-            }
-
-            else
-            {
-                Console.WriteLine(response.StatusCode);
-                return false;
-            }
+                StatusCode = response.StatusCode
+            };
         }
     }
 }

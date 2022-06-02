@@ -1,12 +1,12 @@
-﻿using ChatApp.BLL.DTOs.ChatDTOs;
+﻿using ChatApp.BLL.DTOs;
 
 namespace ChatApp.BLL.Interfaces
 {
     public interface IIntermediateChatService
     {
-        Task<bool> CreatePublicChat(string chatName);
-        Task<IEnumerable<ReadChatDto>> GetAllPublicChats();
-        Task<IEnumerable<ReadChatDto>> GetUserPublicChats();
-        Task<bool> JoinRoom(int chatId);
+        Task<ServerResponse> CreatePublicChat(string chatName);
+        Task<ServerResponseWithChats> GetAllPublicChats();
+        Task<ServerResponseWithChats> GetUserPublicChats();
+        Task<ServerResponse> JoinRoom(int chatId);
     }
 }

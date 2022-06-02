@@ -12,6 +12,6 @@ namespace ChatApp.BLL.Interfaces
         Task<IEnumerable<Chat>> GetPrivateChats(string userId);
         Task JoinRoom(int chatId, string userId);
         Task AddMessage(int chatId, string messageText, string userId);
-        Task<IEnumerable<ReadMessageDto>> GetChatMessages(int chatId);
+        Task<IEnumerable<Message>> GetChatMessages(int chatId);
     }
 }
