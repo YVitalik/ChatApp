@@ -8,5 +8,6 @@ namespace ChatApp.BLL.Interfaces
         Task<ServerResponseWithChats> GetAllPublicChats();
         Task<ServerResponseWithChats> GetUserPublicChats();
         Task<ServerResponse> JoinRoom(int chatId);
+        Task<ServerResponseWithMessages> GetChatMessages(int chatId);
     }
 }

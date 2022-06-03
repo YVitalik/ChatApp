@@ -4,6 +4,7 @@ using ChatApp.BLL.DTOs;
 using ChatApp.BLL.Infrastructure.RequestHelper;
 using ChatApp.BLL.Interfaces;
 using Newtonsoft.Json;
+using ChatApp.DAL.Entities;
 
 namespace ChatApp.IntermediateServices
 {
@@ -50,6 +51,24 @@ namespace ChatApp.IntermediateServices
             {
                 StatusCode = response.StatusCode,
                 Chats = publicChats
+            };
+        }
+
+        public async Task<ServerResponseWithMessages> GetChatMessages(int chatId)
+        {
+            var getChatMessagesUrl = _baseUrl + "messages/" + chatId;
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.GetAsync(getChatMessagesUrl);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var chatMessages = JsonConvert.DeserializeObject<IEnumerable<Message>>(responseContent);
+
+            return new ServerResponseWithMessages
+            {
+                StatusCode = response.StatusCode,
+                Messages = chatMessages
             };
         }
 

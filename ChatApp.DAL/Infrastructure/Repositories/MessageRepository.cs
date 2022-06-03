@@ -12,16 +12,8 @@ namespace ChatApp.DAL.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddMessage(int chatId, string messageText, string userId)
+        public async Task AddMessage(Message message)
         {
-            var message = new Message
-            {
-                ChatId = chatId,
-                Text = messageText,
-                Name = userId,
-                CreatedAt = DateTime.Now
-            };
-
             await _context.Messages.AddAsync(message);
         }
 

@@ -1,0 +1,51 @@
+﻿@page "/chat/{chatId:int}"
+@using ChatApp.BLL.DTOs
+@using ChatApp.BLL.Interfaces
+@using ChatApp.DAL.Entities
+@inherits Base
+
+@if (_chatMessages == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="col">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Messages</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var message in _chatMessages)
+                {
+                    <tr>
+                        <td>@message.Text</td>
+                        <td>@message.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    }
+
+@code{
+    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+
+    private IEnumerable<Message>? _chatMessages;
+
+    [Parameter]
+    public int ChatId { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+       if (firstRender)
+       {
+           ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
+           CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
+           StateHasChanged();
+       }
+    }
+}

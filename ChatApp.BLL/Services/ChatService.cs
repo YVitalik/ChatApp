@@ -17,9 +17,17 @@ namespace ChatApp.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task AddMessage(int chatId, string messageText, string userId)
+        public async Task AddMessage(CreateMessageDto messageDto)
         {
-            await _unitOfWork.Message.AddMessage(chatId, messageText, userId);
+            var message = new Message
+            {
+                ChatId = messageDto.ChatId,
+                Text = messageDto.MessageText,
+                Name = messageDto.UserId,
+                CreatedAt = DateTime.Now
+            };
+            
+            await _unitOfWork.Message.AddMessage(message);
             await _unitOfWork.SaveChangesAsync();
         }
 

@@ -64,5 +64,21 @@ namespace ChatApp.Controllers
             await _chatService.JoinRoom(chatId, userId);
             return Ok();
         }
+
+        [HttpGet("messages/{chatId}")]
+        public async Task<IActionResult> GetChatMessages(int chatId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _chatService.GetChatMessages(chatId);
+            return Ok(result);
+        }
+
+        [HttpPost("createmessage")]
+        public async Task<IActionResult> CreateMessage(CreateMessageDto messageDto)
+        {
+            messageDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _chatService.AddMessage(messageDto);
+            return Ok();
+        }
     }
 }

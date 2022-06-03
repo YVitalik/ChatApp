@@ -30,7 +30,7 @@
                 {
                     <tr>
                         <td>@chat.Name</td>
-                        <td><button class="btn btn-success">Open chat</button></td>
+                        <td><button @onclick="() => OpenChat(chat.Id)" class="btn btn-success">Open chat</button></td>
                     </tr>
                 }
             </tbody>
@@ -88,6 +88,11 @@
         CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
             NavManager.NavigateTo("/createpublic");
         });
+    }
+
+    private async void OpenChat(int chatId)
+    {
+        NavManager.NavigateTo("/chat/" + chatId);
     }
 
     private async void JoinRoom(int chatId)

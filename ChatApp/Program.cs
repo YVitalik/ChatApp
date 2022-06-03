@@ -15,6 +15,7 @@ using ChatApp.DAL.Infrastructure;
 using ChatApp.IntermediateServices;
 using ChatApp.BLL;
 using System.Text.Json.Serialization;
+using ChatApp.BLL.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -99,6 +100,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapBlazorHub();
     endpoints.MapFallbackToPage("/_Host");
     endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chat");
 });
 
 app.Run();
