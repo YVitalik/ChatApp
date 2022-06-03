@@ -1,6 +1,12 @@
 ﻿@using ChatApp.BLL.Interfaces
+@using ChatApp.Pages
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavManager
+@inherits Base
+
+@{
+    base.BuildRenderTree(__builder);
+}
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -83,7 +89,7 @@ else
 
         if (checkIfAuth == null)
         {
-            _isLoggedIn = false; 
+            _isLoggedIn = false;  
             StateHasChanged();
         }
 

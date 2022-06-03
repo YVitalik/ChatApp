@@ -2,14 +2,16 @@
 @using System.Net
 @using ChatApp.BLL.DTOs
 @inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 @code
 {
-    protected void CheckIfUserHasAccess(ServerResponse response, Action action)
+    protected async void CheckIfUserHasAccess(ServerResponse response, Action action)
     {
         if (response.StatusCode == HttpStatusCode.Unauthorized 
             || response.StatusCode == HttpStatusCode.Forbidden)
         {
+            await localStorage.ClearAsync();
             NavManager.NavigateTo("/login");
         }
         else
