@@ -4,6 +4,6 @@ namespace ChatApp.BLL.DTOs
 {
     public class ServerResponseWithMessages : ServerResponse
     {
-        public IEnumerable<Message>? Messages { get; set; }
+        public List<Message>? Messages { get; set; }
     }
 }

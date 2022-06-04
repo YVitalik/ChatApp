@@ -16,6 +16,7 @@ using ChatApp.IntermediateServices;
 using ChatApp.BLL;
 using System.Text.Json.Serialization;
 using ChatApp.BLL.Hubs;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(AutomapperProfile));
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserStateService, UserStateService>();

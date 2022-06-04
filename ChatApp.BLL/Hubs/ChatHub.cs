@@ -7,7 +7,7 @@ namespace ChatApp.BLL.Hubs
     {
         public async Task SendMessage(int chatId, Message message)
         {
-            await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", message);
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
     }
 }

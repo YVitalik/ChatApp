@@ -1,4 +1,6 @@
 ﻿using ChatApp.BLL.DTOs;
+using ChatApp.BLL.DTOs.ChatDTOs;
+using ChatApp.DAL.Entities;
 
 namespace ChatApp.BLL.Interfaces
 {
@@ -9,5 +11,6 @@ namespace ChatApp.BLL.Interfaces
         Task<ServerResponseWithChats> GetUserPublicChats();
         Task<ServerResponse> JoinRoom(int chatId);
         Task<ServerResponseWithMessages> GetChatMessages(int chatId);
+        Task<Message?> CreateMessage(CreateMessageDto messageDto);
     }
 }

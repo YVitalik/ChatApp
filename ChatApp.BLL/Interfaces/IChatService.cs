@@ -11,7 +11,7 @@ namespace ChatApp.BLL.Interfaces
         Task CreatePrivateRoom(string rootId, string targetId);
         Task<IEnumerable<Chat>> GetPrivateChats(string userId);
         Task JoinRoom(int chatId, string userId);
-        Task AddMessage(CreateMessageDto message);
+        Task<Message> AddMessage(CreateMessageDto message);
         Task<IEnumerable<Message>> GetChatMessages(int chatId);
     }
 }

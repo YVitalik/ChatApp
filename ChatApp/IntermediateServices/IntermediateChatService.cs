@@ -5,6 +5,9 @@ using ChatApp.BLL.Infrastructure.RequestHelper;
 using ChatApp.BLL.Interfaces;
 using Newtonsoft.Json;
 using ChatApp.DAL.Entities;
+using System.Text;
+using Microsoft.AspNetCore.SignalR;
+using ChatApp.BLL.Hubs;
 
 namespace ChatApp.IntermediateServices
 {
@@ -20,7 +23,23 @@ namespace ChatApp.IntermediateServices
             _baseUrl = configuration.GetValue<string>("ApiURLs:BasicUrl");
             _httpClient = httpClient;
         }
-        
+
+        public async Task<Message?> CreateMessage(CreateMessageDto messageDto)
+        {
+            var createMessageUrl = _baseUrl + "createmessage";
+            var response = await _httpClient.PostAsync(createMessageUrl, new StringContent(JsonConvert.SerializeObject(messageDto), Encoding.UTF8, "application/json"));
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Message>(responseContent);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<ServerResponse> CreatePublicChat(string chatName)
         {
             var createPublicChatUrl = _baseUrl + "createpublic/" + chatName;
@@ -63,7 +82,7 @@ namespace ChatApp.IntermediateServices
             var response = await _httpClient.GetAsync(getChatMessagesUrl);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            var chatMessages = JsonConvert.DeserializeObject<IEnumerable<Message>>(responseContent);
+            var chatMessages = JsonConvert.DeserializeObject<List<Message>>(responseContent);
 
             return new ServerResponseWithMessages
             {

@@ -1,7 +1,10 @@
 ﻿@page "/chat/{chatId:int}"
 @using ChatApp.BLL.DTOs
+@using ChatApp.BLL.DTOs.ChatDTOs
 @using ChatApp.BLL.Interfaces
 @using ChatApp.DAL.Entities
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject NavigationManager NavManager
 @inherits Base
 
 @if (_chatMessages == null)
@@ -28,24 +31,61 @@
                 }
             </tbody>
         </table>
+        
+        <EditForm Model="CreateMessage" OnValidSubmit="AddMessage" style="max-width:500px;">
+	    <DataAnnotationsValidator />
+	    <ValidationSummary />
+	        <div class="mb-2">
+		    <InputText class="form-control" @bind-Value="CreateMessage.MessageText"></InputText>
+	        </div>
+	        <div class="mb-2 text-right">
+		        <button class="btn btn-secondary">Add message</button>
+	        </div>
+        </EditForm>
+
 	</div>
     }
 
 @code{
     [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
-    private IEnumerable<Message>? _chatMessages;
+    private List<Message>? _chatMessages;
+    private CreateMessageDto CreateMessage = new CreateMessageDto();
+    private HubConnection _hubConnection;
 
     [Parameter]
     public int ChatId { get; set; }
 
+    private async void AddMessage()
+    {
+        CreateMessage.ChatId = ChatId;
+        var newMessage = await _intermediateChatService.CreateMessage(CreateMessage);
+        await _hubConnection.SendAsync("SendMessage", newMessage.ChatId, newMessage);
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-       if (firstRender)
-       {
-           ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
-           CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
-           StateHasChanged();
-       }
+        if (firstRender)
+        {
+            ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
+            CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
+
+            _hubConnection = new HubConnectionBuilder()
+                 .WithUrl(NavManager.ToAbsoluteUri("/chat"))
+                 .Build();
+
+            _hubConnection.On<Message>("ReceiveMessage", (message) =>
+            {
+                _chatMessages.Add(message);
+                InvokeAsync(StateHasChanged);
+            });
+
+            await _hubConnection.StartAsync();
+
+            StateHasChanged();
+        }
     }
+
+    public bool IsConnected =>
+        _hubConnection?.State == HubConnectionState.Connected;
 }

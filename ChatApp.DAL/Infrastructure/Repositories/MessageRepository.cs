@@ -12,9 +12,10 @@ namespace ChatApp.DAL.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddMessage(Message message)
+        public async Task<Message> AddMessage(Message message)
         {
             await _context.Messages.AddAsync(message);
+            return message;
         }
 
         public async Task<IEnumerable<Message>> GetChatMessages(int chatId)

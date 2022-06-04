@@ -17,7 +17,7 @@ namespace ChatApp.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task AddMessage(CreateMessageDto messageDto)
+        public async Task<Message> AddMessage(CreateMessageDto messageDto)
         {
             var message = new Message
             {
@@ -27,8 +27,10 @@ namespace ChatApp.BLL.Services
                 CreatedAt = DateTime.Now
             };
             
-            await _unitOfWork.Message.AddMessage(message);
+            var messageToReturn = await _unitOfWork.Message.AddMessage(message);
             await _unitOfWork.SaveChangesAsync();
+
+            return messageToReturn;
         }
 
         public async Task CreatePrivateRoom(string rootId, string targetId)
