@@ -81,6 +81,7 @@
             });
 
             await _hubConnection.StartAsync();
+            await _hubConnection.SendAsync("JoinRoom", ChatId);
 
             StateHasChanged();
         }
