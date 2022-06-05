@@ -23,7 +23,8 @@ namespace ChatApp.BLL.Services
             {
                 ChatId = messageDto.ChatId,
                 Text = messageDto.MessageText,
-                Name = messageDto.UserId,
+                Name = messageDto.Name,
+                SenderId = messageDto.SenderId,
                 CreatedAt = DateTime.Now
             };
             

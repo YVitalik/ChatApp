@@ -76,9 +76,11 @@ namespace ChatApp.Controllers
         [HttpPost("createmessage")]
         public async Task<IActionResult> CreateMessage(CreateMessageDto messageDto)
         {
-            messageDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            messageDto.Name = User.Identity.Name;
+            messageDto.SenderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var message = await _chatService.AddMessage(messageDto);
-            message.Name = User.Identity.Name;
+
             return Ok(message);
         }
     }

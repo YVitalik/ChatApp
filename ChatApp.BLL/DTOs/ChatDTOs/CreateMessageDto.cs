@@ -12,6 +12,7 @@ namespace ChatApp.BLL.DTOs.ChatDTOs
         public int ChatId { get; set; }
         [Required]
         public string MessageText { get; set; }
-        public string? UserId { get; set; }
+        public string? Name { get; set; }
+        public string? SenderId { get; set; }
     }
 }

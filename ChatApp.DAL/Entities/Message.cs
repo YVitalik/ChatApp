@@ -10,6 +10,7 @@ namespace ChatApp.DAL.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string SenderId { get; set; }
         public string Text { get; set; }
         public DateTime CreatedAt { get; set; }
 
