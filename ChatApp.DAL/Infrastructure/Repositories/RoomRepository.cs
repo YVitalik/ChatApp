@@ -46,11 +46,11 @@ namespace ChatApp.DAL.Infrastructure.Repositories
                     .ToListAsync();
         }
 
-        public async Task CreatePrivateRoom(string rootId, string targetId)
+        public async Task CreatePrivateRoom(string rootId, string targetId, List<User> privateChatUsers)
         {
             var chat = new Chat
             {
-                Name = "Private chat",
+                Name = privateChatUsers[0] + " and " + privateChatUsers[1] + " private chat",
                 Type = ChatType.Private
             };
 

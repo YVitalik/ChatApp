@@ -4,6 +4,8 @@ using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Interfaces;
 using ChatApp.DAL.Entities;
 using ChatApp.DAL.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.BLL.Services
 {
@@ -11,11 +13,18 @@ namespace ChatApp.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public ChatService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ChatService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<List<User>> GetAllUsers(string currentUserId)
+        {
+            return await _userManager.Users.Where(x => x.Id != currentUserId).ToListAsync();
         }
 
         public async Task<Message> AddMessage(CreateMessageDto messageDto)
@@ -37,7 +46,8 @@ namespace ChatApp.BLL.Services
 
         public async Task CreatePrivateRoom(string rootId, string targetId)
         {
-            await _unitOfWork.Room.CreatePrivateRoom(rootId, targetId);
+            var privateChatUserNames = await _userManager.Users.Where(x => x.Id == rootId || x.Id == targetId).ToListAsync();
+            await _unitOfWork.Room.CreatePrivateRoom(rootId, targetId, privateChatUserNames);
             await _unitOfWork.SaveChangesAsync();
         }
 

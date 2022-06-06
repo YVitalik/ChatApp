@@ -1,0 +1,97 @@
+﻿@page "/private"
+@using ChatApp.BLL.DTOs
+@using ChatApp.BLL.DTOs.ChatDTOs
+@using ChatApp.BLL.Interfaces
+@using ChatApp.DAL.Entities
+@inject NavigationManager NavManager
+@inherits Base
+
+<div class="row">
+
+    @if (_privateChats == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="col">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">My chats</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var chat in _privateChats)
+                {
+                    <tr>
+                        <td>@chat.Name</td>
+                        <td><button @onclick="() => OpenChat(chat.Id)" class="btn btn-success">Open chat</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    }
+    
+    @if (_users == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+    <div class="col">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Users</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in _users)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td><button @onclick="() => CreatePrivate(user.Id)" class="btn btn-success">Create private chat</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    }
+
+</div>
+
+@code{
+    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+
+    private List<User>? _users;
+    private IEnumerable<ReadChatDto>? _privateChats;
+
+    private async void OpenChat(int chatId)
+    {
+        NavManager.NavigateTo("/chat/" + chatId);
+    }
+
+    private async void CreatePrivate(string targetId)
+    {
+        var result = await _intermediateChatService.CreatePrivateChat(targetId);
+        CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/private");
+        });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ServerResponseWithUsers getAllUsers = await _intermediateChatService.GetApplicationUsers();
+            ServerResponseWithChats getUserPrivateChats = await _intermediateChatService.GetUserPrivateChats();
+            CheckIfUserHasAccess(getAllUsers, () => { _users = getAllUsers.Users; });
+            CheckIfUserHasAccess(getUserPrivateChats, () => { _privateChats = getUserPrivateChats.Chats; });
+            StateHasChanged();
+        }
+    }
+}

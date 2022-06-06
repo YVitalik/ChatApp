@@ -31,6 +31,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/yuzef/source/repos/ChatApp/ChatApp/Pages/CreatePrivateChat.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlUHJpdmF0ZUNoYXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/yuzef/source/repos/ChatApp/ChatApp/Pages/CreatePublicChat.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlUHVibGljQ2hhdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

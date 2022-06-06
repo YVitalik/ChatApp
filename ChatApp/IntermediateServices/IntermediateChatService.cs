@@ -41,6 +41,20 @@ namespace ChatApp.IntermediateServices
             }
         }
 
+        public async Task<ServerResponse> CreatePrivateChat(string targetId)
+        {
+            var createPrivateChatUrl = _baseUrl + "createprivate/" + targetId;
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.GetAsync(createPrivateChatUrl);
+
+            return new ServerResponse
+            {
+                StatusCode = response.StatusCode
+            };
+        }
+
         public async Task<ServerResponse> CreatePublicChat(string chatName)
         {
             var createPublicChatUrl = _baseUrl + "createpublic/" + chatName;
@@ -93,6 +107,21 @@ namespace ChatApp.IntermediateServices
             };
         }
 
+        public async Task<ServerResponseWithUsers> GetApplicationUsers()
+        {
+            var getAllUsersUrl = _baseUrl + "getusers";
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.GetAsync(getAllUsersUrl);
+
+            return new ServerResponseWithUsers
+            {
+                StatusCode = response.StatusCode,
+                Users = JsonConvert.DeserializeObject<List<User>>(await response.Content.ReadAsStringAsync())
+            };
+        }
+
         public async Task<ServerResponseWithMessages> GetChatMessages(int chatId)
         {
             var getChatMessagesUrl = _baseUrl + "messages/" + chatId;
@@ -108,6 +137,22 @@ namespace ChatApp.IntermediateServices
             {
                 StatusCode = response.StatusCode,
                 Messages = chatMessages
+            };
+        }
+
+        public async Task<ServerResponseWithChats> GetUserPrivateChats()
+        {
+            var getUserPrivateChatsUrl = _baseUrl + "getprivate";
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.GetAsync(getUserPrivateChatsUrl);
+            var userPrivateChats = JsonConvert.DeserializeObject<IEnumerable<ReadChatDto>>(await response.Content.ReadAsStringAsync());
+
+            return new ServerResponseWithChats
+            {
+                StatusCode = response.StatusCode,
+                Chats = userPrivateChats
             };
         }
 

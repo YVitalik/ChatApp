@@ -125,5 +125,13 @@ namespace ChatApp.Controllers
                 return StatusCode(400, ex.Message);
             }
         }
+
+        [HttpGet("getusers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _chatService.GetAllUsers(currentUserId);
+            return Ok(result);
+        }
     }
 }

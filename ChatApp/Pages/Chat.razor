@@ -29,7 +29,7 @@
                         @if(_editing == true && message.Id == _currentUpdatingMessageId)
                         {
                             <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_newMessageText" placeholder="@message.Text"/></td>
-                            <td><button class="btn btn-success"@onclick="() => UpdateMessage(message.Id)">>Update message</button></td>
+                            <td><button class="btn btn-success"@onclick="() => UpdateMessage(message.Id)">Update message</button></td>
                             <td><button class="btn btn-danger" @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
                         }
                         else

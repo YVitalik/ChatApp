@@ -14,5 +14,8 @@ namespace ChatApp.BLL.Interfaces
         Task<ServerResponseWithMessages> GetChatMessages(int chatId);
         Task<Message?> CreateMessage(CreateMessageDto messageDto);
         Task<int?> DeleteMessage(int messageId);
+        Task<ServerResponseWithUsers> GetApplicationUsers();
+        Task<ServerResponse> CreatePrivateChat(string targetId);
+        Task<ServerResponseWithChats> GetUserPrivateChats();
     }
 }
