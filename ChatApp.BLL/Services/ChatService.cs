@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChatApp.BLL.CustomExceptions;
 using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Interfaces;
 using ChatApp.DAL.Entities;
@@ -46,6 +47,22 @@ namespace ChatApp.BLL.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<int> DeleteMessage(DeleteMessageDto deleteMessageDto)
+        {
+            var messageFromDb = await _unitOfWork.Message.GetMessage(deleteMessageDto.MessageId);
+
+            if (messageFromDb.SenderId == deleteMessageDto.UserId)
+            {
+                await _unitOfWork.Message.DeleteMessage(deleteMessageDto.MessageId);
+                await _unitOfWork.SaveChangesAsync();
+                return deleteMessageDto.MessageId;
+            }
+            else
+            {
+                throw new InvalidUserException("You can delete only your own messages!");
+            }
+        }
+
         public async Task<IEnumerable<ReadChatDto>> GetAllPublicChats(string userId)
         {
             var chats = await _unitOfWork.Room.GetAllPublicChats(userId);
@@ -73,6 +90,32 @@ namespace ChatApp.BLL.Services
         {
             await _unitOfWork.Room.JoinRoom(chatId, userId);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto)
+        {
+            var messageFromDb = await _unitOfWork.Message.GetMessage(updateMessageDto.Id);
+            
+            if (messageFromDb != null)
+            {
+                if (messageFromDb.SenderId == updateMessageDto.SenderId)
+                {
+                    messageFromDb.Text = updateMessageDto.Text;
+                    var messageToReturn = _unitOfWork.Message.UpdateMessage(messageFromDb);
+                    
+                    await _unitOfWork.SaveChangesAsync();
+
+                    return messageToReturn; 
+                }
+                else
+                {
+                    throw new InvalidUserException("You can edit and delete only your own messages!");
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException("Message with such id doesnt exist!");
+            }
         }
     }
 }

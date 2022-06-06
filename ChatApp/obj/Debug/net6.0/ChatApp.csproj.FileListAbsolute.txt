@@ -85,3 +85,4 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCor
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.Extensions.Features.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\libman.json

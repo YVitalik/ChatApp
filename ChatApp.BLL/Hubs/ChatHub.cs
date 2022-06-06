@@ -14,5 +14,15 @@ namespace ChatApp.BLL.Hubs
         {
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", message);
         }
+
+        public async Task SendUpdatedMessage(int chatId, Message message)
+        {
+            await Clients.Group(chatId.ToString()).SendAsync("ReceiveUpdatedMessage", message);
+        }
+
+        public async Task DeleteMessage(int chatId, int messageId)
+        {
+            await Clients.Group(chatId.ToString()).SendAsync("UpdateChatWhenMessageIdDeleted", messageId);
+        }
     }
 }

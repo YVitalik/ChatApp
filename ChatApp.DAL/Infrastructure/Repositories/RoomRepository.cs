@@ -31,7 +31,8 @@ namespace ChatApp.DAL.Infrastructure.Repositories
         public async Task<IEnumerable<Chat>> GetUserPublicChats(string userId)
         {
             return await _context.Chats
-                    .Where(x => x.Users
+                    .Where(x => x.Type == ChatType.Room &&
+                        x.Users
                         .Any(y => y.UserId == userId))
                     .ToListAsync();
         }
@@ -39,7 +40,8 @@ namespace ChatApp.DAL.Infrastructure.Repositories
         public async Task<IEnumerable<Chat>> GetAllPublicChats(string userId)
         {
             return await _context.Chats
-                    .Where(x => !x.Users
+                    .Where(x => x.Type == ChatType.Room && 
+                        !x.Users
                         .Any(y => y.UserId == userId))
                     .ToListAsync();
         }

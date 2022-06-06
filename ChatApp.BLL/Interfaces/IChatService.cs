@@ -5,6 +5,7 @@ namespace ChatApp.BLL.Interfaces
 {
     public interface IChatService
     {
+        Task<int> DeleteMessage(DeleteMessageDto deleteMessageDto);
         Task CreatePublicRoom(string name, string userId);
         Task<IEnumerable<ReadChatDto>> GetAllPublicChats(string userId);
         Task<IEnumerable<ReadChatDto>> GetUserPublicChats(string userId);
@@ -13,5 +14,6 @@ namespace ChatApp.BLL.Interfaces
         Task JoinRoom(int chatId, string userId);
         Task<Message> AddMessage(CreateMessageDto message);
         Task<IEnumerable<Message>> GetChatMessages(int chatId);
+        Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto);
     }
 }

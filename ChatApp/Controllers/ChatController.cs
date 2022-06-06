@@ -1,4 +1,5 @@
-﻿using ChatApp.BLL.DTOs.ChatDTOs;
+﻿using ChatApp.BLL.CustomExceptions;
+using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,6 @@ namespace ChatApp.Controllers
         [HttpGet("messages/{chatId}")]
         public async Task<IActionResult> GetChatMessages(int chatId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await _chatService.GetChatMessages(chatId);
             return Ok(result);
         }
@@ -82,6 +82,48 @@ namespace ChatApp.Controllers
             var message = await _chatService.AddMessage(messageDto);
 
             return Ok(message);
+        }
+
+        [HttpPost("updatemessage")]
+        public async Task<IActionResult> UpdateMessage(UpdateMessageDto updateMessageDto)
+        {
+            try
+            {
+                updateMessageDto.SenderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var message = await _chatService.UpdateMessage(updateMessageDto);
+
+                return Ok(message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+            catch (InvalidUserException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
+        }
+
+        [HttpGet("deletemessage/{messageId}")]
+        public async Task<IActionResult> DeleteMessage(int messageId)
+        {
+            try
+            {
+                var deleteMessageDto = new DeleteMessageDto
+                {
+                    MessageId = messageId,
+                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                };
+
+                var deletedMessageId = await _chatService.DeleteMessage(deleteMessageDto);
+
+                return Ok(deletedMessageId);
+            }
+            catch (InvalidUserException ex)
+            {
+                return StatusCode(400, ex.Message);
+            }
         }
     }
 }

@@ -18,15 +18,28 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">Messages</th>
-                    <th scope="col"></th>
+                    <th scope="col">Send time</th>
+                    <th scope="col">Sender name</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var message in _chatMessages)
                 {
                     <tr>
-                        <td>@message.Text</td>
-                        <td>@message.Name</td>
+                        @if(_editing == true && message.Id == _currentUpdatingMessageId)
+                        {
+                            <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_newMessageText" placeholder="@message.Text"/></td>
+                            <td><button class="btn btn-success"@onclick="() => UpdateMessage(message.Id)">>Update message</button></td>
+                            <td><button class="btn btn-danger" @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
+                        }
+                        else
+                        {
+                            <td>@message.Text</td>
+                            <td>@message.CreatedAt</td>
+                            <td>@message.Name</td>
+                            <td><button @onclick="() => ChangeMessageUpdateState(message.Id)"><i class="fa fa-pencil"></i></button></td>
+                            <td><button @onclick="() => DeleteMessage(message.Id)"><i class="fa fa-trash"></i></button></td>
+                        }
                     </tr>
                 }
             </tbody>
@@ -52,15 +65,53 @@
     private List<Message>? _chatMessages;
     private CreateMessageDto CreateMessage = new CreateMessageDto();
     private HubConnection _hubConnection;
+    private bool _editing = false;
+    private int? _currentUpdatingMessageId;
+    private string? _newMessageText;
 
     [Parameter]
     public int ChatId { get; set; }
+
+    private void ChangeMessageUpdateState(int messageId)
+    {
+        if (_editing == false)
+        {
+            _editing = true;
+            _currentUpdatingMessageId = messageId;
+        }
+        else
+        {
+            _editing = false;
+            _currentUpdatingMessageId = null;
+        }
+    }
+
+    private async void DeleteMessage(int messageId)
+    {
+        var deletedMessageId = await _intermediateChatService.DeleteMessage(messageId);
+        await _hubConnection.SendAsync("DeleteMessage", ChatId, deletedMessageId);
+    }
+
+    private async void UpdateMessage(int messageId)
+    {
+        var updateMessageDto = new UpdateMessageDto
+        {
+            Id = messageId,
+            Text = _newMessageText
+        };
+
+        var updatedMessage = await _intermediateChatService.UpdateMessage(updateMessageDto);
+        await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
+
+        ChangeMessageUpdateState(updatedMessage.Id);
+    }
 
     private async void AddMessage()
     {
         CreateMessage.ChatId = ChatId;
         var newMessage = await _intermediateChatService.CreateMessage(CreateMessage);
         await _hubConnection.SendAsync("SendMessage", newMessage.ChatId, newMessage);
+        CreateMessage.MessageText = String.Empty;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -77,6 +128,19 @@
             _hubConnection.On<Message>("ReceiveMessage", (message) =>
             {
                 _chatMessages.Add(message);
+                InvokeAsync(StateHasChanged);
+            });
+
+            _hubConnection.On<Message>("ReceiveUpdatedMessage", (message) =>
+            {
+                _chatMessages.Where(x => x.Id == message.Id).ToList().ForEach(s => s.Text = message.Text);
+                InvokeAsync(StateHasChanged);
+            });
+
+            _hubConnection.On<int>("UpdateChatWhenMessageIdDeleted", (messageId) =>
+            {
+                var messageToDelete = _chatMessages.FirstOrDefault(x => x.Id == messageId);
+                _chatMessages.Remove(messageToDelete);
                 InvokeAsync(StateHasChanged);
             });
 

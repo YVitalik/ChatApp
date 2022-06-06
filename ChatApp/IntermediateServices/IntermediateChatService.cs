@@ -6,8 +6,6 @@ using ChatApp.BLL.Interfaces;
 using Newtonsoft.Json;
 using ChatApp.DAL.Entities;
 using System.Text;
-using Microsoft.AspNetCore.SignalR;
-using ChatApp.BLL.Hubs;
 
 namespace ChatApp.IntermediateServices
 {
@@ -27,6 +25,9 @@ namespace ChatApp.IntermediateServices
         public async Task<Message?> CreateMessage(CreateMessageDto messageDto)
         {
             var createMessageUrl = _baseUrl + "createmessage";
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
             var response = await _httpClient.PostAsync(createMessageUrl, new StringContent(JsonConvert.SerializeObject(messageDto), Encoding.UTF8, "application/json"));
 
             if (response.IsSuccessStatusCode)
@@ -53,6 +54,25 @@ namespace ChatApp.IntermediateServices
                 StatusCode = response.StatusCode
             };
             
+        }
+
+        public async Task<int?> DeleteMessage(int messageId)
+        {
+            var deleteMessageUrl = _baseUrl + "deletemessage/" + messageId;
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.GetAsync(deleteMessageUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<int>(responseContent);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<ServerResponseWithChats> GetAllPublicChats()
@@ -121,6 +141,26 @@ namespace ChatApp.IntermediateServices
             {
                 StatusCode = response.StatusCode
             };
+        }
+
+        public async Task<Message?> UpdateMessage(UpdateMessageDto updateMessageDto)
+        {
+            var updateMessageUrl = _baseUrl + "updatemessage";
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.PostAsync(updateMessageUrl, new StringContent(JsonConvert.SerializeObject(updateMessageDto), Encoding.UTF8, "application/json"));
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Message>(responseContent);
+            }
+
+            else
+            {
+                return null;
+            }
         }
     }
 }
