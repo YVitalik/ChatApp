@@ -14,6 +14,7 @@
     else
     {
     <div class="col">
+        <div style="width:100%; height:500px; overflow:auto;">
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -52,12 +53,15 @@
                 }
             </tbody>
         </table>
+        </div>
+
+        <br>
         
         <EditForm Model="CreateMessage" OnValidSubmit="AddMessage" style="max-width:500px;">
 	    <DataAnnotationsValidator />
 	    <ValidationSummary />
 	        <div class="mb-2">
-		    <InputText class="form-control" @bind-Value="CreateMessage.MessageText"></InputText>
+		        <InputText class="form-control" @bind-Value="CreateMessage.MessageText"></InputText>
 	        </div>
 	        <div class="mb-2 text-right">
 		        <button class="btn btn-secondary">Add message</button>
@@ -68,7 +72,7 @@
     }
 
 @code{
-        [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
     private List<Message>? _chatMessages;
     private int _amountOfMessagesToTake = 15;
