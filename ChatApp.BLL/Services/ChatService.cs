@@ -132,17 +132,34 @@ namespace ChatApp.BLL.Services
         {
             var chat = await _unitOfWork.Room.GetChatByName(replyMessageDto.ChatNameToReply);
             var message = await _unitOfWork.Message.GetMessage(replyMessageDto.MessageId);
+            var messageSenderName = await _userManager.FindByIdAsync(message.SenderId);
 
-            var repliedMessage = new Message
+            var repliedMessage = new Message();
+
+            if (message.Name == "Replied from: " + messageSenderName.UserName)
             {
-                ChatId = chat.Id,
-                Text = message.Text,
-                Name = "Replied from: " + message.Name,
-                SenderId = message.SenderId,
-                CreatedAt = DateTime.Now
-            };
-
+                repliedMessage = new Message
+                {
+                    ChatId = chat.Id,
+                    Text = message.Text,
+                    Name = message.Name,
+                    SenderId = message.SenderId,
+                    CreatedAt = DateTime.Now
+                };
+            }
             
+            else
+            {
+                repliedMessage = new Message
+                {
+                    ChatId = chat.Id,
+                    Text = message.Text,
+                    Name = "Replied from: " + message.Name,
+                    SenderId = message.SenderId,
+                    CreatedAt = DateTime.Now
+                };
+            }
+
             var messageToReturn = await _unitOfWork.Message.AddMessage(repliedMessage);
             await _unitOfWork.SaveChangesAsync();
 

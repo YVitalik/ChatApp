@@ -126,6 +126,7 @@
         };
 
         var updatedMessage = await _intermediateChatService.UpdateMessage(updateMessageDto);
+
         await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
         _newMessageText = String.Empty;
 
@@ -141,10 +142,18 @@
         };
 
         var repliedMessage = await _intermediateChatService.ReplyMessage(replyMessageDto);
-        await _hubConnection.SendAsync("SendMessage", repliedMessage.ChatId, repliedMessage);
-        _chatForReply = String.Empty;
-        
-        ChangeMessageReplyState(repliedMessage.Id);
+
+        if (repliedMessage.ChatId == ChatId)
+        {
+            await _hubConnection.SendAsync("SendMessage", repliedMessage.ChatId, repliedMessage);
+            _chatForReply = String.Empty;
+            ChangeMessageReplyState(repliedMessage.Id);
+        }
+        else
+        {
+            NavManager.NavigateTo("/");
+            NavManager.NavigateTo("/chat/" + ChatId);
+        }
     }
 
     private async void AddMessage()
@@ -160,9 +169,9 @@
         if (firstRender)
         {
             ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
-            
+
             CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
-          
+
 
             _hubConnection = new HubConnectionBuilder()
                  .WithUrl(NavManager.ToAbsoluteUri("/chat"))
