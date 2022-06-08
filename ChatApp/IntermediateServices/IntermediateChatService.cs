@@ -122,13 +122,13 @@ namespace ChatApp.IntermediateServices
             };
         }
 
-        public async Task<ServerResponseWithMessages> GetChatMessages(int chatId)
+        public async Task<ServerResponseWithMessages> GetChatMessages(ReadChatMessagesDto readChatMessagesDto)
         {
-            var getChatMessagesUrl = _baseUrl + "messages/" + chatId;
+            var getChatMessagesUrl = _baseUrl + "messages";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
-            var response = await _httpClient.GetAsync(getChatMessagesUrl);
+            var response = await _httpClient.PostAsync(getChatMessagesUrl, new StringContent(JsonConvert.SerializeObject(readChatMessagesDto), Encoding.UTF8, "application/json"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
             var chatMessages = JsonConvert.DeserializeObject<List<Message>>(responseContent);

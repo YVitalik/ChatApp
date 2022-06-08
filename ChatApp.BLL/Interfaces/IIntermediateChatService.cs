@@ -11,7 +11,7 @@ namespace ChatApp.BLL.Interfaces
         Task<ServerResponseWithChats> GetAllPublicChats();
         Task<ServerResponseWithChats> GetUserPublicChats();
         Task<ServerResponse> JoinRoom(int chatId);
-        Task<ServerResponseWithMessages> GetChatMessages(int chatId);
+        Task<ServerResponseWithMessages> GetChatMessages(ReadChatMessagesDto readChatMessagesDto);
         Task<Message?> CreateMessage(CreateMessageDto messageDto);
         Task<Message?> ReplyMessage(ReplyMessageDto replyMessageDto);
         Task<ServerResponseWithUsers> GetApplicationUsers();

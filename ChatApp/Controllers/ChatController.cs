@@ -66,10 +66,10 @@ namespace ChatApp.Controllers
             return Ok();
         }
 
-        [HttpGet("messages/{chatId}")]
-        public async Task<IActionResult> GetChatMessages(int chatId)
+        [HttpPost("messages")]
+        public async Task<IActionResult> GetChatMessages(ReadChatMessagesDto readChatMessagesDto)
         {
-            var result = await _chatService.GetChatMessages(chatId);
+            var result = await _chatService.GetChatMessages(readChatMessagesDto.ChatId, readChatMessagesDto.AmountOfMessagesToTake);
             return Ok(result);
         }
 

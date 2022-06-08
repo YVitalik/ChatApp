@@ -70,6 +70,7 @@
     [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
     private List<Message>? _chatMessages;
+    private int _amountOfMessagesToTake = 15;
     private IEnumerable<ReadChatDto>? _userChats;
     private CreateMessageDto CreateMessage = new CreateMessageDto();
     private HubConnection _hubConnection;
@@ -168,10 +169,15 @@
     {
         if (firstRender)
         {
-            ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
+            var readChatMessagesDto = new ReadChatMessagesDto
+            {
+                ChatId = ChatId,
+                AmountOfMessagesToTake = _amountOfMessagesToTake
+            };
+
+            ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(readChatMessagesDto);
 
             CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
-
 
             _hubConnection = new HubConnectionBuilder()
                  .WithUrl(NavManager.ToAbsoluteUri("/chat"))
