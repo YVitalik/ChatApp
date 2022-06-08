@@ -4,5 +4,6 @@
     {
         public int ChatId { get; set; }
         public int AmountOfMessagesToTake { get; set; }
+        public DateTime? TimeOfSending { get; set; }
     }
 }

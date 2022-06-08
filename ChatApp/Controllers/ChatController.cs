@@ -69,7 +69,7 @@ namespace ChatApp.Controllers
         [HttpPost("messages")]
         public async Task<IActionResult> GetChatMessages(ReadChatMessagesDto readChatMessagesDto)
         {
-            var result = await _chatService.GetChatMessages(readChatMessagesDto.ChatId, readChatMessagesDto.AmountOfMessagesToTake);
+            var result = await _chatService.GetChatMessages(readChatMessagesDto.ChatId, readChatMessagesDto.AmountOfMessagesToTake, readChatMessagesDto.TimeOfSending);
             return Ok(result);
         }
 

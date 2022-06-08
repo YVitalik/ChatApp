@@ -26,9 +26,18 @@ namespace ChatApp.DAL.Infrastructure.Repositories
             return messageToDelete.Id;
         }
 
-        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake)
+        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending = null)
         {
-            return await _context.Messages.Where(x => x.ChatId == chatId).Take(amountOfMessagesToTake).ToListAsync();
+            if (timeOfSending == null)
+            {
+                var messages = await _context.Messages.Where(x => x.ChatId == chatId).ToListAsync();
+                return messages.TakeLast(amountOfMessagesToTake);
+            }
+            else 
+            {
+                var messages = await _context.Messages.Where(x => (x.ChatId == chatId && x.CreatedAt < timeOfSending)).ToListAsync();
+                return messages.TakeLast(amountOfMessagesToTake);
+            }
         }
 
         public async Task<Message> GetMessage(int messageId)

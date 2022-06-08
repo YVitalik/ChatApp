@@ -24,5 +24,10 @@ namespace ChatApp.BLL.Hubs
         {
             await Clients.Group(chatId.ToString()).SendAsync("UpdateChatWhenMessageIdDeleted", messageId);
         }
+
+        public async Task SendOlderMessages(List<Message> olderMessages)
+        {
+            await Clients.Caller.SendAsync("ReceiveOldMessages", olderMessages);
+        }
     }
 }

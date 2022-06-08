@@ -79,9 +79,9 @@ namespace ChatApp.BLL.Services
             return _mapper.Map<IEnumerable<ReadChatDto>>(chats);
         }
 
-        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake)
+        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending = null)
         {
-            return await _unitOfWork.Message.GetChatMessages(chatId, amountOfMessagesToTake);
+            return await _unitOfWork.Message.GetChatMessages(chatId, amountOfMessagesToTake, timeOfSending);
             //return _mapper.Map<IEnumerable<ReadMessageDto>>(result);
         }
 

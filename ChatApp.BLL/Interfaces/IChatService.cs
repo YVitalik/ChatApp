@@ -13,7 +13,7 @@ namespace ChatApp.BLL.Interfaces
         Task<IEnumerable<Chat>> GetPrivateChats(string userId);
         Task JoinRoom(int chatId, string userId);
         Task<Message> AddMessage(CreateMessageDto message);
-        Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake);
+        Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending = null);
         Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto);
         Task<List<User>> GetAllUsers(string currentUserId);
         Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto);

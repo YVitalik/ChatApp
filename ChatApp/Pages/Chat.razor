@@ -20,6 +20,7 @@
                     <th scope="col">Messages</th>
                     <th scope="col">Send time</th>
                     <th scope="col">Sender name</th>
+                    <th scope="col"><button @onclick="() => ShowOlderMessages()" class="btn btn-primary">Show older messages</button></th>
                 </tr>
             </thead>
             <tbody>
@@ -67,7 +68,7 @@
     }
 
 @code{
-    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+        [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
     private List<Message>? _chatMessages;
     private int _amountOfMessagesToTake = 15;
@@ -96,6 +97,21 @@
             _replying = false;
             _currentReplyingMessageId = null;
         }
+    }
+
+    private async void ShowOlderMessages()
+    {
+        var timeOfSending = _chatMessages[0].CreatedAt;
+
+        var readChatMessagesDto = new ReadChatMessagesDto
+        {
+            ChatId = ChatId,
+            AmountOfMessagesToTake = _amountOfMessagesToTake,
+            TimeOfSending = timeOfSending
+        };
+
+        var oldMessages = await _intermediateChatService.GetChatMessages(readChatMessagesDto);
+        await _hubConnection.SendAsync("SendOlderMessages", oldMessages.Messages);
     }
 
     private void ChangeMessageUpdateState(int messageId)
@@ -199,6 +215,13 @@
             {
                 var messageToDelete = _chatMessages.FirstOrDefault(x => x.Id == messageId);
                 _chatMessages.Remove(messageToDelete);
+                InvokeAsync(StateHasChanged);
+            });
+
+            _hubConnection.On<List<Message>>("ReceiveOldMessages", (oldMessages) =>
+            {
+                var temporaryChatMessages = _chatMessages.Concat(oldMessages).OrderBy(x => x.CreatedAt).ToList();
+                _chatMessages = temporaryChatMessages;
                 InvokeAsync(StateHasChanged);
             });
 
