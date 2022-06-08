@@ -86,5 +86,10 @@ namespace ChatApp.DAL.Infrastructure.Repositories
 
             await _context.ChatUsers.AddAsync(chatUser);
         }
+
+        public async Task<Chat> GetChatByName(string chatName)
+        {
+            return await _context.Chats.FirstOrDefaultAsync(x => x.Name.ToLower().Replace(" ", string.Empty) == chatName.ToLower().Replace(" ", string.Empty));
+        }
     }
 }

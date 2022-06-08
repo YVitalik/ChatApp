@@ -16,5 +16,6 @@ namespace ChatApp.BLL.Interfaces
         Task<IEnumerable<Message>> GetChatMessages(int chatId);
         Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto);
         Task<List<User>> GetAllUsers(string currentUserId);
+        Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto);
     }
 }

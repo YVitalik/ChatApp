@@ -188,6 +188,27 @@ namespace ChatApp.IntermediateServices
             };
         }
 
+        public async Task<Message?> ReplyMessage(ReplyMessageDto replyMessageDto)
+        {
+            var replyMessageUrl = _baseUrl + "replymessage";
+
+            await SetAuthorizationHeader(_localStorage, _httpClient);
+
+            var response = await _httpClient.PostAsync(replyMessageUrl, new StringContent(JsonConvert.SerializeObject(replyMessageDto), Encoding.UTF8, "application/json"));
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var messageToReturn = JsonConvert.DeserializeObject<Message>(responseContent);
+                return messageToReturn;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<Message?> UpdateMessage(UpdateMessageDto updateMessageDto)
         {
             var updateMessageUrl = _baseUrl + "updatemessage";

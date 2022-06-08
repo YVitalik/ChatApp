@@ -14,9 +14,9 @@ using ChatApp.DAL.Interfaces;
 using ChatApp.DAL.Infrastructure;
 using ChatApp.IntermediateServices;
 using ChatApp.BLL;
-using System.Text.Json.Serialization;
 using ChatApp.BLL.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +38,12 @@ builder.Services.AddTransient<IMessageRepository, MessageRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddTransient<IIntermediateChatService, IntermediateChatService>();
-builder.Services.AddControllers().AddJsonOptions(options =>
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

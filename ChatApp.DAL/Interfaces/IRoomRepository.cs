@@ -10,5 +10,6 @@ namespace ChatApp.DAL.Interfaces
         Task CreatePrivateRoom(string rootId, string targetId, List<User> privateChatUsers);
         Task<IEnumerable<Chat>> GetPrivateChats(string userId);
         Task JoinRoom(int chatId, string userId);
+        Task<Chat> GetChatByName(string chatName);
     }
 }

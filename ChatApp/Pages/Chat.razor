@@ -26,11 +26,17 @@
                 @foreach (var message in _chatMessages)
                 {
                     <tr>
-                        @if(_editing == true && message.Id == _currentUpdatingMessageId)
+                        @if (_editing == true && message.Id == _currentUpdatingMessageId)
                         {
                             <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_newMessageText" placeholder="@message.Text"/></td>
                             <td><button class="btn btn-success"@onclick="() => UpdateMessage(message.Id)">Update message</button></td>
-                            <td><button class="btn btn-danger" @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
+                            <td><button @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
+                        }
+                        else if (_replying == true && message.Id == _currentReplyingMessageId)
+                        {
+                            <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_chatForReply" placeholder="Enter chat name"/></td>
+                            <td><button class="btn btn-success"@onclick="() => ReplyMessage(message.Id)">Reply message</button></td>
+                            <td><button @onclick="() => ChangeMessageReplyState(message.Id)">Go back</button></td>
                         }
                         else
                         {
@@ -39,6 +45,7 @@
                             <td>@message.Name</td>
                             <td><button @onclick="() => ChangeMessageUpdateState(message.Id)"><i class="fa fa-pencil"></i></button></td>
                             <td><button @onclick="() => DeleteMessage(message.Id)"><i class="fa fa-trash"></i></button></td>
+                            <td><button @onclick="() => ChangeMessageReplyState(message.Id)"><i class="fa fa-reply"></i></button></td>
                         }
                     </tr>
                 }
@@ -63,14 +70,32 @@
     [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
 
     private List<Message>? _chatMessages;
+    private IEnumerable<ReadChatDto>? _userChats;
     private CreateMessageDto CreateMessage = new CreateMessageDto();
     private HubConnection _hubConnection;
     private bool _editing = false;
+    private bool _replying = false;
+    private int? _currentReplyingMessageId;
     private int? _currentUpdatingMessageId;
     private string? _newMessageText;
+    private string? _chatForReply;
 
     [Parameter]
     public int ChatId { get; set; }
+
+    private void ChangeMessageReplyState(int messageId)
+    {
+        if (_replying == false)
+        {
+            _replying = true;
+            _currentReplyingMessageId = messageId;
+        }
+        else
+        {
+            _replying = false;
+            _currentReplyingMessageId = null;
+        }
+    }
 
     private void ChangeMessageUpdateState(int messageId)
     {
@@ -102,8 +127,24 @@
 
         var updatedMessage = await _intermediateChatService.UpdateMessage(updateMessageDto);
         await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
+        _newMessageText = String.Empty;
 
         ChangeMessageUpdateState(updatedMessage.Id);
+    }
+
+    private async void ReplyMessage(int messageId)
+    {
+        var replyMessageDto = new ReplyMessageDto
+        {
+            ChatNameToReply = _chatForReply,
+            MessageId = messageId
+        };
+
+        var repliedMessage = await _intermediateChatService.ReplyMessage(replyMessageDto);
+        await _hubConnection.SendAsync("SendMessage", repliedMessage.ChatId, repliedMessage);
+        _chatForReply = String.Empty;
+        
+        ChangeMessageReplyState(repliedMessage.Id);
     }
 
     private async void AddMessage()
@@ -119,7 +160,9 @@
         if (firstRender)
         {
             ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(ChatId);
+            
             CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
+          
 
             _hubConnection = new HubConnectionBuilder()
                  .WithUrl(NavManager.ToAbsoluteUri("/chat"))

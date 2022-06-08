@@ -105,6 +105,14 @@ namespace ChatApp.Controllers
             }
         }
 
+        [HttpPost("replymessage")]
+        public async Task<IActionResult> ReplyMessage(ReplyMessageDto replyMessageDto)
+        {
+             var message = await _chatService.ReplyMessage(replyMessageDto);
+
+             return Ok(message);
+        }
+
         [HttpGet("deletemessage/{messageId}")]
         public async Task<IActionResult> DeleteMessage(int messageId)
         {

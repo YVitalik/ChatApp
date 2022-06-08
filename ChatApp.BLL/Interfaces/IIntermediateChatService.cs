@@ -13,9 +13,10 @@ namespace ChatApp.BLL.Interfaces
         Task<ServerResponse> JoinRoom(int chatId);
         Task<ServerResponseWithMessages> GetChatMessages(int chatId);
         Task<Message?> CreateMessage(CreateMessageDto messageDto);
-        Task<int?> DeleteMessage(int messageId);
+        Task<Message?> ReplyMessage(ReplyMessageDto replyMessageDto);
         Task<ServerResponseWithUsers> GetApplicationUsers();
         Task<ServerResponse> CreatePrivateChat(string targetId);
         Task<ServerResponseWithChats> GetUserPrivateChats();
+        Task<int?> DeleteMessage(int messageId);
     }
 }

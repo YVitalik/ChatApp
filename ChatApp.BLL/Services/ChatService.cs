@@ -127,5 +127,26 @@ namespace ChatApp.BLL.Services
                 throw new ArgumentNullException("Message with such id doesnt exist!");
             }
         }
+
+        public async Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto)
+        {
+            var chat = await _unitOfWork.Room.GetChatByName(replyMessageDto.ChatNameToReply);
+            var message = await _unitOfWork.Message.GetMessage(replyMessageDto.MessageId);
+
+            var repliedMessage = new Message
+            {
+                ChatId = chat.Id,
+                Text = message.Text,
+                Name = "Replied from: " + message.Name,
+                SenderId = message.SenderId,
+                CreatedAt = DateTime.Now
+            };
+
+            
+            var messageToReturn = await _unitOfWork.Message.AddMessage(repliedMessage);
+            await _unitOfWork.SaveChangesAsync();
+
+            return messageToReturn;
+        }
     }
 }
