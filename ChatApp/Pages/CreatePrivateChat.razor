@@ -62,6 +62,16 @@
 	</div>
     }
 
+    @if (_mistakesFromServer.Count > 0)
+    {
+        <div class="col">
+            @foreach (var mistake in _mistakesFromServer)
+            {
+                <p>@mistake</p>
+            }
+        </div>
+    }
+
 </div>
 
 @code{
@@ -78,9 +88,15 @@
     private async void CreatePrivate(string targetId)
     {
         var result = await _intermediateChatService.CreatePrivateChat(targetId);
-        CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
-            NavManager.NavigateTo("/private");
-        });
+        
+        var checkIfSucceeded = await CheckIfServerResponseIsSucceded(result.Response);
+
+        if (checkIfSucceeded)
+        {
+            CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
+                NavManager.NavigateTo("/private");
+            });
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

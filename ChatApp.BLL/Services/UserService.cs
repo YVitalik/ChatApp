@@ -3,6 +3,7 @@ using ChatApp.BLL.DTOs.AdministrationDTOs;
 using ChatApp.BLL.Interfaces;
 using ChatApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.BLL.Services
 {
@@ -16,19 +17,17 @@ namespace ChatApp.BLL.Services
 
         public async Task<User> Login(LoginDTO login)
         {
-            var user = _userManager.Users.FirstOrDefault(x => x.UserName == login.Username);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == login.Username);
 
-            if (user != null)
+            if (user is null)
             {
-                return await _userManager.CheckPasswordAsync(user, login.Password) ? user : null;
+                throw new UserDoesntExistsException("Username is incorrect!");
             }
-            else
-            {
-                throw new UserDoesntExistsException("Username or password is incorrect!");
-            }
+            
+            return await _userManager.CheckPasswordAsync(user, login.Password) ? user : null;
         }
 
-        public async Task<string> Register(RegisterDTO user)
+        public async Task Register(RegisterDTO user)
         {
             var check = _userManager.Users.FirstOrDefault(x => x.UserName == user.Username || x.Email == user.Email);
             
@@ -40,14 +39,9 @@ namespace ChatApp.BLL.Services
             var newUser = new User { UserName = user.Username, Email = user.Email };
             var result = await _userManager.CreateAsync(newUser, user.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return "User has been created succesfully!";
-            }
-
-            else
-            {
-                return "Oops something goes wrong!";
+                throw new ArgumentException("Oops something went wrong please try again!");
             }
         }
     }

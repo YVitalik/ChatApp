@@ -69,6 +69,15 @@
 
 <div class="form-group mb-2">
   <input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="chatName" />
+  
+  @if (_mistakesFromServer.Count > 0)
+  {
+      @foreach (var mistake in _mistakesFromServer)
+      {
+          <p>@mistake</p>
+      }
+  }
+
 </div>
 <button type="submit" @onclick="CreatePublic" class="btn btn-success mb-2">
   Create new public chat and join
@@ -85,9 +94,15 @@
     private async void CreatePublic()
     {
         ServerResponse result = await _intermediateChatService.CreatePublicChat(chatName);
-        CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
-            NavManager.NavigateTo("/createpublic");
-        });
+
+        var checkIfSucceeded = await CheckIfServerResponseIsSucceded(result.Response);
+
+        if (checkIfSucceeded)
+        {
+            CheckIfUserHasAccess(result, () => { NavManager.NavigateTo("/");
+                NavManager.NavigateTo("/createpublic");
+            });
+        }
     }
 
     private async void OpenChat(int chatId)

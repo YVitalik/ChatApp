@@ -21,9 +21,16 @@ namespace ChatApp.Controllers
         [HttpGet("createpublic/{roomName}")]
         public async Task<IActionResult> CreatePublicRoom(string roomName)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _chatService.CreatePublicRoom(roomName, userId);
-            return Ok();
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await _chatService.CreatePublicRoom(roomName, userId);
+                return Ok();
+            }
+            catch (ItemWithSuchNameAlreadyExists ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("getallpublic")]
@@ -45,9 +52,16 @@ namespace ChatApp.Controllers
         [HttpGet("createprivate/{targetId}")]
         public async Task<IActionResult> CreatePrivateChat(string targetId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _chatService.CreatePrivateRoom(userId, targetId);
-            return Ok();
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await _chatService.CreatePrivateRoom(userId, targetId);
+                return Ok();
+            }
+            catch (ItemWithSuchNameAlreadyExists ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("getprivate")]

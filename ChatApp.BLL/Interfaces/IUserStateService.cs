@@ -9,8 +9,8 @@ namespace ChatApp.BLL.Interfaces
 {
     public interface IUserStateService
     {
-        Task<string> Login(LoginDTO loginDetails);
-        Task<string> Register(RegisterDTO registerDetails);
+        Task<HttpResponseMessage> Login(LoginDTO loginDetails);
+        Task<HttpResponseMessage> Register(RegisterDTO registerDetails);
         Task Logout();
     }
 }

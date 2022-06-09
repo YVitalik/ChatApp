@@ -47,12 +47,26 @@ namespace ChatApp.BLL.Services
         public async Task CreatePrivateRoom(string rootId, string targetId)
         {
             var privateChatUserNames = await _userManager.Users.Where(x => x.Id == rootId || x.Id == targetId).ToListAsync();
+            var checkIfChatExists = await _unitOfWork.Room.GetChatByName(privateChatUserNames[0] + " and " + privateChatUserNames[1] + " private chat");
+
+            if (checkIfChatExists != null)
+            {
+                throw new ItemWithSuchNameAlreadyExists("You have already got chat with this user!");
+            }
+
             await _unitOfWork.Room.CreatePrivateRoom(rootId, targetId, privateChatUserNames);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task CreatePublicRoom(string name, string userId)
         {
+            var checkIfChatWithSuchNameExists = await _unitOfWork.Room.GetChatByName(name);
+
+            if (checkIfChatWithSuchNameExists != null)
+            {
+                throw new ItemWithSuchNameAlreadyExists("Chat with such name already exist please choose another!");
+            }
+
             await _unitOfWork.Room.CreatePublicRoom(name, userId);
             await _unitOfWork.SaveChangesAsync();
         }

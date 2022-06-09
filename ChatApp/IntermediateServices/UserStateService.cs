@@ -20,7 +20,7 @@ namespace ChatApp.IntermediateServices
             _httpClient = httpClient;
         }
 
-        public async Task<string> Login(LoginDTO loginDetails)
+        public async Task<HttpResponseMessage> Login(LoginDTO loginDetails)
         {
             var loginUrl = _baseUrl + "account/login";
             var response = await _httpClient.PostAsync(loginUrl, new StringContent(JsonConvert.SerializeObject(loginDetails), Encoding.UTF8, "application/json"));
@@ -28,23 +28,21 @@ namespace ChatApp.IntermediateServices
             if (response.IsSuccessStatusCode)
             {
                 await SaveToken(response);
+                return response;
             }
 
-            return "Something went wrong!";
+            else
+            {
+                return response;
+            }
         }
 
-        public async Task<string> Register(RegisterDTO registerDetails)
+        public async Task<HttpResponseMessage> Register(RegisterDTO registerDetails)
         {
             var registerUrl = _baseUrl + "account/register";
             var response = await _httpClient.PostAsync(registerUrl, new StringContent(JsonConvert.SerializeObject(registerDetails), Encoding.UTF8, "application/json"));
 
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("You are registered successfully");
-                return "Yeah";
-            }
-
-            return "Something went wrong!";
+            return response;
         }
 
         public async Task Logout()

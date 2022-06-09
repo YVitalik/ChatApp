@@ -51,7 +51,8 @@ namespace ChatApp.IntermediateServices
 
             return new ServerResponse
             {
-                StatusCode = response.StatusCode
+                StatusCode = response.StatusCode,
+                Response = response
             };
         }
 
@@ -65,7 +66,8 @@ namespace ChatApp.IntermediateServices
 
             return new ServerResponse
             {
-                StatusCode = response.StatusCode
+                StatusCode = response.StatusCode,
+                Response = response
             };
             
         }

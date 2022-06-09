@@ -31,14 +31,14 @@
                         @if (_editing == true && message.Id == _currentUpdatingMessageId)
                         {
                             <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_newMessageText" placeholder="@message.Text"/></td>
-                            <td><button class="btn btn-success"@onclick="() => UpdateMessage(message.Id)">Update message</button></td>
-                            <td><button @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
+                            <td><button class="btn btn-success" @onclick="() => UpdateMessage(message.Id)">Update message</button></td>
+                            <td><button class="btn btn-danger" @onclick="() => ChangeMessageUpdateState(message.Id)">Go back</button></td>
                         }
                         else if (_replying == true && message.Id == _currentReplyingMessageId)
                         {
                             <td><input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="_chatForReply" placeholder="Enter chat name"/></td>
-                            <td><button class="btn btn-success"@onclick="() => ReplyMessage(message.Id)">Reply message</button></td>
-                            <td><button @onclick="() => ChangeMessageReplyState(message.Id)">Go back</button></td>
+                            <td><button class="btn btn-success" @onclick="() => ReplyMessage(message.Id)">Reply message</button></td>
+                            <td><button class="btn btn-danger" @onclick="() => ChangeMessageReplyState(message.Id)">Go back</button></td>
                         }
                         else
                         {

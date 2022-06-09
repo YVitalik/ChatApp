@@ -6,6 +6,8 @@
 
 @code
 {
+    protected List<string> _mistakesFromServer = new List<string>();
+
     protected async void CheckIfUserHasAccess(ServerResponse response, Action action)
     {
         if (response.StatusCode == HttpStatusCode.Unauthorized 
@@ -19,4 +21,29 @@
             action.Invoke();
         }
     }
+
+    protected async Task<bool> CheckIfServerResponseIsSucceded(HttpResponseMessage response, string navigateToIfSuccess = null)
+    {
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var mistake = await response.Content.ReadAsStringAsync();
+            _mistakesFromServer.Add(mistake);
+            StateHasChanged();
+            return false;
+        }
+        else
+        {
+            if (navigateToIfSuccess is null)
+            {
+                _mistakesFromServer.Clear();
+                return true;
+            }
+            else
+            {
+                _mistakesFromServer.Clear();
+                NavManager.NavigateTo(navigateToIfSuccess);
+                return true;
+            }
+        }
+	}
 }

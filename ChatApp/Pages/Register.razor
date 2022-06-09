@@ -5,6 +5,19 @@
 @using Newtonsoft.Json
 @using System.Text
 @inject NavigationManager NavManager
+@inherits Base
+
+@if (_mistakesFromServer.Count > 0)
+{
+	foreach (var mistake in _mistakesFromServer)
+	{
+		<p>@mistake</p>
+	}
+}
+else
+{
+	<p></p>
+}
 
 <EditForm Model="RegisterUserDto" OnValidSubmit="OnValid" style="max-width:500px;">
 	<DataAnnotationsValidator />
@@ -31,8 +44,7 @@
 
 	private async void OnValid()
 	{
-		await _userStateService.Register(RegisterUserDto);
-
-		NavManager.NavigateTo("/");
+		var serverResponse = await _userStateService.Register(RegisterUserDto);
+		await CheckIfServerResponseIsSucceded(serverResponse, "/");
 	}
 }

@@ -31,9 +31,10 @@ namespace ChatApp.Controllers
                 
                 return Ok(new { Token = JwtHelper.GenerateJwt(user, _jwtSettings) });
             }
+            
             catch (UserDoesntExistsException ex)
             {
-                return StatusCode(400, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -47,7 +48,7 @@ namespace ChatApp.Controllers
             }
             catch (UsernameAlreadyExistsException ex)
             {
-                return StatusCode(400, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
     }

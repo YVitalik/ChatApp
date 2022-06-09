@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using System.Net
 @using ChatApp.BLL.DTOs.AdministrationDTOs
 @using ChatApp.BLL.Infrastructure.JwtHelper
 @using ChatApp.BLL.Interfaces
@@ -6,6 +7,20 @@
 @using Newtonsoft.Json
 @using System.Text
 @inject NavigationManager NavManager
+@inherits Base
+
+@if (_mistakesFromServer.Count > 0)
+{
+	foreach (var mistake in _mistakesFromServer)
+	{
+		<p>@mistake</p>
+	}
+}
+
+else
+{
+	<p></p>
+}
 
 <EditForm Model="LoginUserDto" OnValidSubmit="OnValid" style="max-width:500px;">
 	<DataAnnotationsValidator />
@@ -29,8 +44,7 @@
 
 	private async void OnValid()
 	{
-		await _userStateService.Login(LoginUserDto);
-
-		NavManager.NavigateTo("/");
+		var serverResponse = await _userStateService.Login(LoginUserDto);
+		await CheckIfServerResponseIsSucceded(serverResponse, "/");
 	}
 }
