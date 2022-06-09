@@ -6,17 +6,17 @@ namespace ChatApp.BLL.Interfaces
 {
     public interface IIntermediateChatService
     {
-        Task<Message?> UpdateMessage(UpdateMessageDto updateMessageDto);
+        Task<HttpResponseMessage> UpdateMessage(UpdateMessageDto updateMessageDto);
         Task<ServerResponse> CreatePublicChat(string chatName);
         Task<ServerResponseWithChats> GetAllPublicChats();
         Task<ServerResponseWithChats> GetUserPublicChats();
         Task<ServerResponse> JoinRoom(int chatId);
         Task<ServerResponseWithMessages> GetChatMessages(ReadChatMessagesDto readChatMessagesDto);
         Task<Message?> CreateMessage(CreateMessageDto messageDto);
-        Task<Message?> ReplyMessage(ReplyMessageDto replyMessageDto);
+        Task<HttpResponseMessage> ReplyMessage(ReplyMessageDto replyMessageDto);
         Task<ServerResponseWithUsers> GetApplicationUsers();
         Task<ServerResponse> CreatePrivateChat(string targetId);
         Task<ServerResponseWithChats> GetUserPrivateChats();
-        Task<int?> DeleteMessage(int messageId);
+        Task<HttpResponseMessage> DeleteMessage(int messageId);
     }
 }

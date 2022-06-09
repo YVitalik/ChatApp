@@ -72,7 +72,7 @@ namespace ChatApp.IntermediateServices
             
         }
 
-        public async Task<int?> DeleteMessage(int messageId)
+        public async Task<HttpResponseMessage> DeleteMessage(int messageId)
         {
             var deleteMessageUrl = _baseUrl + "deletemessage/" + messageId;
 
@@ -80,15 +80,7 @@ namespace ChatApp.IntermediateServices
 
             var response = await _httpClient.GetAsync(deleteMessageUrl);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<int>(responseContent);
-            }
-            else
-            {
-                return null;
-            }
+            return response;
         }
 
         public async Task<ServerResponseWithChats> GetAllPublicChats()
@@ -190,7 +182,7 @@ namespace ChatApp.IntermediateServices
             };
         }
 
-        public async Task<Message?> ReplyMessage(ReplyMessageDto replyMessageDto)
+        public async Task<HttpResponseMessage> ReplyMessage(ReplyMessageDto replyMessageDto)
         {
             var replyMessageUrl = _baseUrl + "replymessage";
 
@@ -198,20 +190,10 @@ namespace ChatApp.IntermediateServices
 
             var response = await _httpClient.PostAsync(replyMessageUrl, new StringContent(JsonConvert.SerializeObject(replyMessageDto), Encoding.UTF8, "application/json"));
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var messageToReturn = JsonConvert.DeserializeObject<Message>(responseContent);
-                return messageToReturn;
-            }
-
-            else
-            {
-                return null;
-            }
+            return response;
         }
 
-        public async Task<Message?> UpdateMessage(UpdateMessageDto updateMessageDto)
+        public async Task<HttpResponseMessage> UpdateMessage(UpdateMessageDto updateMessageDto)
         {
             var updateMessageUrl = _baseUrl + "updatemessage";
 
@@ -219,16 +201,7 @@ namespace ChatApp.IntermediateServices
 
             var response = await _httpClient.PostAsync(updateMessageUrl, new StringContent(JsonConvert.SerializeObject(updateMessageDto), Encoding.UTF8, "application/json"));
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Message>(responseContent);
-            }
-
-            else
-            {
-                return null;
-            }
+            return response;
         }
     }
 }

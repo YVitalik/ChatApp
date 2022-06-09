@@ -111,20 +111,27 @@ namespace ChatApp.Controllers
             }
             catch (ArgumentNullException ex)
             {
-                return StatusCode(400, ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (InvalidUserException ex)
             {
-                return StatusCode(400, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost("replymessage")]
         public async Task<IActionResult> ReplyMessage(ReplyMessageDto replyMessageDto)
         {
-             var message = await _chatService.ReplyMessage(replyMessageDto);
+            try
+            {
+                var message = await _chatService.ReplyMessage(replyMessageDto);
 
-             return Ok(message);
+                return Ok(message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("deletemessage/{messageId}")]
@@ -144,7 +151,7 @@ namespace ChatApp.Controllers
             }
             catch (InvalidUserException ex)
             {
-                return StatusCode(400, ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 

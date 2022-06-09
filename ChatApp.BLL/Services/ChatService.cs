@@ -93,10 +93,9 @@ namespace ChatApp.BLL.Services
             return _mapper.Map<IEnumerable<ReadChatDto>>(chats);
         }
 
-        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending = null)
+        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending)
         {
             return await _unitOfWork.Message.GetChatMessages(chatId, amountOfMessagesToTake, timeOfSending);
-            //return _mapper.Map<IEnumerable<ReadMessageDto>>(result);
         }
 
         public async Task<IEnumerable<Chat>> GetPrivateChats(string userId)
@@ -145,6 +144,12 @@ namespace ChatApp.BLL.Services
         public async Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto)
         {
             var chat = await _unitOfWork.Room.GetChatByName(replyMessageDto.ChatNameToReply);
+
+            if (chat is null)
+            {
+                throw new ArgumentNullException("Chat with such name does not exist!");
+            }
+
             var message = await _unitOfWork.Message.GetMessage(replyMessageDto.MessageId);
             var messageSenderName = await _userManager.FindByIdAsync(message.SenderId);
 

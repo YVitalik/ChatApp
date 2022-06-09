@@ -4,6 +4,7 @@
 @using ChatApp.BLL.Interfaces
 @using ChatApp.DAL.Entities
 @using Microsoft.AspNetCore.SignalR.Client;
+@using Newtonsoft.Json
 @inject NavigationManager NavManager
 @inherits Base
 
@@ -69,6 +70,15 @@
         </EditForm>
 
 	</div>
+
+    @if (_mistakesFromServer.Count > 0)
+    {
+        @foreach (var mistake in _mistakesFromServer)
+        {
+            <p>@mistake</p>
+        }
+    }
+
     }
 
 @code{
@@ -134,8 +144,15 @@
 
     private async void DeleteMessage(int messageId)
     {
-        var deletedMessageId = await _intermediateChatService.DeleteMessage(messageId);
-        await _hubConnection.SendAsync("DeleteMessage", ChatId, deletedMessageId);
+        var serverResponse = await _intermediateChatService.DeleteMessage(messageId);
+
+        var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
+
+        if (checkIfStatusCodeOk)
+        {
+            var deletedMessageId = JsonConvert.DeserializeObject<int>(await serverResponse.Content.ReadAsStringAsync());
+            await _hubConnection.SendAsync("DeleteMessage", ChatId, deletedMessageId);
+        }
     }
 
     private async void UpdateMessage(int messageId)
@@ -146,12 +163,18 @@
             Text = _newMessageText
         };
 
-        var updatedMessage = await _intermediateChatService.UpdateMessage(updateMessageDto);
+        var serverResponse = await _intermediateChatService.UpdateMessage(updateMessageDto);
 
-        await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
-        _newMessageText = String.Empty;
+        var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
 
-        ChangeMessageUpdateState(updatedMessage.Id);
+        if (checkIfStatusCodeOk)
+        {
+            var updatedMessage = JsonConvert.DeserializeObject<Message>(await serverResponse.Content.ReadAsStringAsync());
+
+            await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
+            _newMessageText = String.Empty;
+            ChangeMessageUpdateState(updatedMessage.Id);
+        }
     }
 
     private async void ReplyMessage(int messageId)
@@ -162,18 +185,25 @@
             MessageId = messageId
         };
 
-        var repliedMessage = await _intermediateChatService.ReplyMessage(replyMessageDto);
+        var serverResponse = await _intermediateChatService.ReplyMessage(replyMessageDto);
 
-        if (repliedMessage.ChatId == ChatId)
+        var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
+
+        if (checkIfStatusCodeOk)
         {
-            await _hubConnection.SendAsync("SendMessage", repliedMessage.ChatId, repliedMessage);
-            _chatForReply = String.Empty;
-            ChangeMessageReplyState(repliedMessage.Id);
-        }
-        else
-        {
-            NavManager.NavigateTo("/");
-            NavManager.NavigateTo("/chat/" + ChatId);
+            var repliedMessage = JsonConvert.DeserializeObject<Message>(await serverResponse.Content.ReadAsStringAsync());
+
+            if (repliedMessage.ChatId == ChatId)
+            {
+                await _hubConnection.SendAsync("SendMessage", repliedMessage.ChatId, repliedMessage);
+                _chatForReply = String.Empty;
+                ChangeMessageReplyState(repliedMessage.Id);
+            }
+            else
+            {
+                NavManager.NavigateTo("/");
+                NavManager.NavigateTo("/chat/" + ChatId);
+            }
         }
     }
 
