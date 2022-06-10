@@ -5,7 +5,6 @@ using ChatApp.BLL.Infrastructure.RequestHelper;
 using ChatApp.BLL.Interfaces;
 using Newtonsoft.Json;
 using ChatApp.DAL.Entities;
-using System.Text;
 
 namespace ChatApp.IntermediateServices
 {
@@ -21,29 +20,10 @@ namespace ChatApp.IntermediateServices
             _baseUrl = configuration.GetValue<string>("ApiURLs:BasicUrl");
             _httpClient = httpClient;
         }
-
-        public async Task<Message?> CreateMessage(CreateMessageDto messageDto)
-        {
-            var createMessageUrl = _baseUrl + "createmessage";
-
-            await SetAuthorizationHeader(_localStorage, _httpClient);
-
-            var response = await _httpClient.PostAsync(createMessageUrl, new StringContent(JsonConvert.SerializeObject(messageDto), Encoding.UTF8, "application/json"));
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Message>(responseContent);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
+        
         public async Task<ServerResponse> CreatePrivateChat(string targetId)
         {
-            var createPrivateChatUrl = _baseUrl + "createprivate/" + targetId;
+            var createPrivateChatUrl = _baseUrl + "chat/createprivate/" + targetId;
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -58,7 +38,7 @@ namespace ChatApp.IntermediateServices
 
         public async Task<ServerResponse> CreatePublicChat(string chatName)
         {
-            var createPublicChatUrl = _baseUrl + "createpublic/" + chatName;
+            var createPublicChatUrl = _baseUrl + "chat/createpublic/" + chatName;
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -72,20 +52,9 @@ namespace ChatApp.IntermediateServices
             
         }
 
-        public async Task<HttpResponseMessage> DeleteMessage(int messageId)
-        {
-            var deleteMessageUrl = _baseUrl + "deletemessage/" + messageId;
-
-            await SetAuthorizationHeader(_localStorage, _httpClient);
-
-            var response = await _httpClient.GetAsync(deleteMessageUrl);
-
-            return response;
-        }
-
         public async Task<ServerResponseWithChats> GetAllPublicChats()
         {
-            var getAllPublicChatsUrl = _baseUrl + "getallpublic";
+            var getAllPublicChatsUrl = _baseUrl + "chat/getallpublic";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -103,7 +72,7 @@ namespace ChatApp.IntermediateServices
 
         public async Task<ServerResponseWithUsers> GetApplicationUsers()
         {
-            var getAllUsersUrl = _baseUrl + "getusers";
+            var getAllUsersUrl = _baseUrl + "chat/getusers";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -116,27 +85,9 @@ namespace ChatApp.IntermediateServices
             };
         }
 
-        public async Task<ServerResponseWithMessages> GetChatMessages(ReadChatMessagesDto readChatMessagesDto)
-        {
-            var getChatMessagesUrl = _baseUrl + "messages";
-
-            await SetAuthorizationHeader(_localStorage, _httpClient);
-
-            var response = await _httpClient.PostAsync(getChatMessagesUrl, new StringContent(JsonConvert.SerializeObject(readChatMessagesDto), Encoding.UTF8, "application/json"));
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            var chatMessages = JsonConvert.DeserializeObject<List<Message>>(responseContent);
-
-            return new ServerResponseWithMessages
-            {
-                StatusCode = response.StatusCode,
-                Messages = chatMessages
-            };
-        }
-
         public async Task<ServerResponseWithChats> GetUserPrivateChats()
         {
-            var getUserPrivateChatsUrl = _baseUrl + "getprivate";
+            var getUserPrivateChatsUrl = _baseUrl + "chat/getprivate";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -152,7 +103,7 @@ namespace ChatApp.IntermediateServices
 
         public async Task<ServerResponseWithChats> GetUserPublicChats()
         {
-            var getAllUserChatsUrl = _baseUrl + "getuserpublic";
+            var getAllUserChatsUrl = _baseUrl + "chat/getuserpublic";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -170,7 +121,7 @@ namespace ChatApp.IntermediateServices
 
         public async Task<ServerResponse> JoinRoom(int chatId)
         {
-            var joinPublicRoomUrl = _baseUrl + "joinroom/" + chatId;
+            var joinPublicRoomUrl = _baseUrl + "chat/joinroom/" + chatId;
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
@@ -180,28 +131,6 @@ namespace ChatApp.IntermediateServices
             {
                 StatusCode = response.StatusCode
             };
-        }
-
-        public async Task<HttpResponseMessage> ReplyMessage(ReplyMessageDto replyMessageDto)
-        {
-            var replyMessageUrl = _baseUrl + "replymessage";
-
-            await SetAuthorizationHeader(_localStorage, _httpClient);
-
-            var response = await _httpClient.PostAsync(replyMessageUrl, new StringContent(JsonConvert.SerializeObject(replyMessageDto), Encoding.UTF8, "application/json"));
-
-            return response;
-        }
-
-        public async Task<HttpResponseMessage> UpdateMessage(UpdateMessageDto updateMessageDto)
-        {
-            var updateMessageUrl = _baseUrl + "updatemessage";
-
-            await SetAuthorizationHeader(_localStorage, _httpClient);
-
-            var response = await _httpClient.PostAsync(updateMessageUrl, new StringContent(JsonConvert.SerializeObject(updateMessageDto), Encoding.UTF8, "application/json"));
-
-            return response;
         }
     }
 }

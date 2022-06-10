@@ -70,9 +70,9 @@
 <div class="form-group mb-2">
   <input style="width: 300px; height: 35px;" class="form-control" @bind:event="oninput" @bind="chatName" />
   
-  @if (_mistakesFromServer.Count > 0)
+  @if (_errorsFromServer.Count > 0)
   {
-      @foreach (var mistake in _mistakesFromServer)
+      @foreach (var mistake in _errorsFromServer)
       {
           <p>@mistake</p>
       }

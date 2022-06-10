@@ -62,10 +62,10 @@
 	</div>
     }
 
-    @if (_mistakesFromServer.Count > 0)
+    @if (_errorsFromServer.Count > 0)
     {
         <div class="col">
-            @foreach (var mistake in _mistakesFromServer)
+            @foreach (var mistake in _errorsFromServer)
             {
                 <p>@mistake</p>
             }

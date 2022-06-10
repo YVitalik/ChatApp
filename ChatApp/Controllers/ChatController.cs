@@ -9,7 +9,7 @@ namespace ChatApp.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("chatapi")]
+    [Route("api/chat")]
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;
@@ -78,81 +78,6 @@ namespace ChatApp.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _chatService.JoinRoom(chatId, userId);
             return Ok();
-        }
-
-        [HttpPost("messages")]
-        public async Task<IActionResult> GetChatMessages(ReadChatMessagesDto readChatMessagesDto)
-        {
-            var result = await _chatService.GetChatMessages(readChatMessagesDto.ChatId, readChatMessagesDto.AmountOfMessagesToTake, readChatMessagesDto.TimeOfSending);
-            return Ok(result);
-        }
-
-        [HttpPost("createmessage")]
-        public async Task<IActionResult> CreateMessage(CreateMessageDto messageDto)
-        {
-            messageDto.Name = User.Identity.Name;
-            messageDto.SenderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var message = await _chatService.AddMessage(messageDto);
-
-            return Ok(message);
-        }
-
-        [HttpPost("updatemessage")]
-        public async Task<IActionResult> UpdateMessage(UpdateMessageDto updateMessageDto)
-        {
-            try
-            {
-                updateMessageDto.SenderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                var message = await _chatService.UpdateMessage(updateMessageDto);
-
-                return Ok(message);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidUserException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost("replymessage")]
-        public async Task<IActionResult> ReplyMessage(ReplyMessageDto replyMessageDto)
-        {
-            try
-            {
-                var message = await _chatService.ReplyMessage(replyMessageDto);
-
-                return Ok(message);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("deletemessage/{messageId}")]
-        public async Task<IActionResult> DeleteMessage(int messageId)
-        {
-            try
-            {
-                var deleteMessageDto = new DeleteMessageDto
-                {
-                    MessageId = messageId,
-                    UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-                };
-
-                var deletedMessageId = await _chatService.DeleteMessage(deleteMessageDto);
-
-                return Ok(deletedMessageId);
-            }
-            catch (InvalidUserException ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpGet("getusers")]

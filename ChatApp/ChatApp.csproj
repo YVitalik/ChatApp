@@ -29,8 +29,4 @@
     <ProjectReference Include="..\ChatApp.BLL\ChatApp.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
 </Project>

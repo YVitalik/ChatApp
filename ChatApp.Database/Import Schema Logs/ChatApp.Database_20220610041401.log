@@ -1,0 +1,87 @@
+10.06.2022 19:14:01	This log contains information about the import schema operation into project 'ChatApp.Database' on computer 'DESKTOP-9G99FJ2' by user 'yuzef'.
+10.06.2022 19:14:01	Import of database schema has started.
+10.06.2022 19:14:15	Gathering database credentials
+10.06.2022 19:14:15	Gathering database options
+10.06.2022 19:14:15	Gathering generic database scoped configuration option
+10.06.2022 19:14:15	Gathering users
+10.06.2022 19:14:15	Gathering roles
+10.06.2022 19:14:15	Gathering application roles
+10.06.2022 19:14:15	Gathering role memberships
+10.06.2022 19:14:15	Gathering filegroups
+10.06.2022 19:14:15	Gathering full-text catalogs
+10.06.2022 19:14:15	Gathering assemblies
+10.06.2022 19:14:15	Gathering certificates
+10.06.2022 19:14:15	Gathering asymmetric keys
+10.06.2022 19:14:15	Gathering symmetric keys
+10.06.2022 19:14:15	Gathering encrypted symmetric keys
+10.06.2022 19:14:15	Gathering schemas
+10.06.2022 19:14:15	Gathering XML schema collections
+10.06.2022 19:14:15	Gathering user-defined data types
+10.06.2022 19:14:15	Gathering user-defined types
+10.06.2022 19:14:15	Gathering table types
+10.06.2022 19:14:15	Gathering unique keys for table types
+10.06.2022 19:14:15	Gathering primary keys for table types
+10.06.2022 19:14:15	Gathering indexes for table types
+10.06.2022 19:14:17	Gathering check constraints for table types
+10.06.2022 19:14:17	Gathering default constraints for table types
+10.06.2022 19:14:17	Gathering partition functions
+10.06.2022 19:14:17	Gathering partition schemes
+10.06.2022 19:14:17	Gathering functions
+10.06.2022 19:14:17	Gathering encrypted functions
+10.06.2022 19:14:17	Gathering aggregates
+10.06.2022 19:14:17	Gathering procedures
+10.06.2022 19:14:17	Gathering encrypted procedures
+10.06.2022 19:14:17	Gathering tables
+10.06.2022 19:14:17	Gathering primary keys
+10.06.2022 19:14:17	Gathering unique constraints
+10.06.2022 19:14:17	Gathering foreign keys
+10.06.2022 19:14:17	Gathering default constraints
+10.06.2022 19:14:17	Gathering check constraints
+10.06.2022 19:14:17	Gathering views
+10.06.2022 19:14:17	Gathering encrypted views
+10.06.2022 19:14:17	Gathering indexes
+10.06.2022 19:14:17	Gathering statistics
+10.06.2022 19:14:17	Gathering full-text index stoplists
+10.06.2022 19:14:17	Gathering search property lists
+10.06.2022 19:14:17	Gathering search properties
+10.06.2022 19:14:17	Gathering full-text indexes
+10.06.2022 19:14:17	Gathering column store indexes
+10.06.2022 19:14:17	Gathering spatial indexes
+10.06.2022 19:14:17	Gathering XML indexes
+10.06.2022 19:14:17	Gathering Selective XML indexes
+10.06.2022 19:14:17	Gathering encrypted triggers
+10.06.2022 19:14:17	Gathering triggers
+10.06.2022 19:14:17	Gathering encrypted and clr ddl triggers
+10.06.2022 19:14:17	Gathering ddl triggers
+10.06.2022 19:14:17	Creating edge constraints
+10.06.2022 19:14:17	Gathering synonyms
+10.06.2022 19:14:17	Gathering defaults
+10.06.2022 19:14:17	Gathering data constraint uddt bindings
+10.06.2022 19:14:17	Gathering rules
+10.06.2022 19:14:17	Gathering data constraint uddt bindings
+10.06.2022 19:14:18	Gathering message types
+10.06.2022 19:14:18	Gathering queues
+10.06.2022 19:14:18	Gathering contracts
+10.06.2022 19:14:18	Gathering services
+10.06.2022 19:14:18	Gathering event notifications
+10.06.2022 19:14:18	Gathering remote service bindings
+10.06.2022 19:14:18	Gathering broker priorities
+10.06.2022 19:14:18	Gathering signatures
+10.06.2022 19:14:18	Gathering data compression options
+10.06.2022 19:14:18	Gathering sequence types
+10.06.2022 19:14:18	Gathering security policies
+10.06.2022 19:14:18	Gather column encryption keys
+10.06.2022 19:14:18	Gathering column master keys
+10.06.2022 19:14:18	Gathering external data sources
+10.06.2022 19:14:18	Gathering external file formats
+10.06.2022 19:14:18	Gathering external tables
+10.06.2022 19:14:18	Gathering extended properties
+10.06.2022 19:14:18	Gathering assemblies
+10.06.2022 19:14:18	Gathering credentials
+10.06.2022 19:14:18	Gathering logins
+10.06.2022 19:14:18	Gathering server audits
+10.06.2022 19:14:21	Scanning project for duplicate elements
+10.06.2022 19:14:21	Finished duplicate element processing
+10.06.2022 19:14:22	Finished importing database.
+10.06.2022 19:14:22	A summary of the import was saved to the following location: C:\Users\yuzef\source\repos\ChatApp\ChatApp.Database\Import Schema Logs\ChatApp.Database_20220610041401.log
+10.06.2022 19:14:22	Click Finish to continue...

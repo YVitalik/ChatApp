@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace ChatApp.Controllers
 {
     [ApiController]
-    [Route("chatapi/account")]
+    [Route("api/account")]
     public class AccountController : ControllerBase
     {
         private readonly JwtSettings _jwtSettings;

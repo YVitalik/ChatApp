@@ -32,12 +32,14 @@ builder.Services.AddResponseCompression(opts =>
 });
 
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IUserStateService, UserStateService>();
+builder.Services.AddTransient<IIntermediateUserService, IntermediateUserService>();
 builder.Services.AddTransient<IRoomRepository, RoomRepository>();
 builder.Services.AddTransient<IMessageRepository, MessageRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IChatService, ChatService>();
+builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddTransient<IIntermediateChatService, IntermediateChatService>();
+builder.Services.AddTransient<IIntermediateMessageService, IntemediateMessageService>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {

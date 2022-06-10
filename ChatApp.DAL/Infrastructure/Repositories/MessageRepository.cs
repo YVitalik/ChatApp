@@ -30,12 +30,12 @@ namespace ChatApp.DAL.Infrastructure.Repositories
         {
             if (timeOfSending == null)
             {
-                var messages = await _context.Messages.Where(x => x.ChatId == chatId).ToListAsync();
+                var messages = await _context.Messages.Where(x => x.ChatId == chatId).OrderBy(x => x.CreatedAt).ToListAsync();
                 return messages.TakeLast(amountOfMessagesToTake);
             }
             else 
             {
-                var messages = await _context.Messages.Where(x => (x.ChatId == chatId && x.CreatedAt < timeOfSending)).ToListAsync();
+                var messages = await _context.Messages.Where(x => (x.ChatId == chatId && x.CreatedAt < timeOfSending)).OrderBy(x => x.CreatedAt).ToListAsync();
                 return messages.TakeLast(amountOfMessagesToTake);
             }
         }

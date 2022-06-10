@@ -6,7 +6,7 @@
 
 @code
 {
-    protected List<string> _mistakesFromServer = new List<string>();
+    protected List<string> _errorsFromServer = new List<string>();
 
     protected async void CheckIfUserHasAccess(ServerResponse response, Action action)
     {
@@ -27,7 +27,7 @@
         if (response.StatusCode == HttpStatusCode.BadRequest)
         {
             var mistake = await response.Content.ReadAsStringAsync();
-            _mistakesFromServer.Add(mistake);
+            _errorsFromServer.Add(mistake);
             StateHasChanged();
             return false;
         }
@@ -35,12 +35,12 @@
         {
             if (navigateToIfSuccess is null)
             {
-                _mistakesFromServer.Clear();
+                _errorsFromServer.Clear();
                 return true;
             }
             else
             {
-                _mistakesFromServer.Clear();
+                _errorsFromServer.Clear();
                 NavManager.NavigateTo(navigateToIfSuccess);
                 return true;
             }

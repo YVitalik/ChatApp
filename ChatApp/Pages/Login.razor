@@ -9,9 +9,9 @@
 @inject NavigationManager NavManager
 @inherits Base
 
-@if (_mistakesFromServer.Count > 0)
+@if (_errorsFromServer.Count > 0)
 {
-	foreach (var mistake in _mistakesFromServer)
+	foreach (var mistake in _errorsFromServer)
 	{
 		<p>@mistake</p>
 	}
@@ -38,7 +38,7 @@ else
 
 @code {
 
-	[Inject] private IUserStateService _userStateService { get; set; }
+	[Inject] private IIntermediateUserService _userStateService { get; set; }
 
 	private LoginDTO LoginUserDto = new LoginDTO();
 

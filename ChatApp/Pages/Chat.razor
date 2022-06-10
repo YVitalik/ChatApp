@@ -71,9 +71,9 @@
 
 	</div>
 
-    @if (_mistakesFromServer.Count > 0)
+    @if (_errorsFromServer.Count > 0)
     {
-        @foreach (var mistake in _mistakesFromServer)
+        @foreach (var mistake in _errorsFromServer)
         {
             <p>@mistake</p>
         }
@@ -82,7 +82,7 @@
     }
 
 @code{
-    [Inject] private IIntermediateChatService _intermediateChatService { get; set; }
+    [Inject] private IIntermediateMessageService _intermediateMessageService { get; set; }
 
     private List<Message>? _chatMessages;
     private int _amountOfMessagesToTake = 15;
@@ -124,7 +124,7 @@
             TimeOfSending = timeOfSending
         };
 
-        var oldMessages = await _intermediateChatService.GetChatMessages(readChatMessagesDto);
+        var oldMessages = await _intermediateMessageService.GetChatMessages(readChatMessagesDto);
         await _hubConnection.SendAsync("SendOlderMessages", oldMessages.Messages);
     }
 
@@ -144,7 +144,7 @@
 
     private async void DeleteMessage(int messageId)
     {
-        var serverResponse = await _intermediateChatService.DeleteMessage(messageId);
+        var serverResponse = await _intermediateMessageService.DeleteMessage(messageId);
 
         var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
 
@@ -163,7 +163,7 @@
             Text = _newMessageText
         };
 
-        var serverResponse = await _intermediateChatService.UpdateMessage(updateMessageDto);
+        var serverResponse = await _intermediateMessageService.UpdateMessage(updateMessageDto);
 
         var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
 
@@ -185,7 +185,7 @@
             MessageId = messageId
         };
 
-        var serverResponse = await _intermediateChatService.ReplyMessage(replyMessageDto);
+        var serverResponse = await _intermediateMessageService.ReplyMessage(replyMessageDto);
 
         var checkIfStatusCodeOk = await CheckIfServerResponseIsSucceded(serverResponse);
 
@@ -210,7 +210,7 @@
     private async void AddMessage()
     {
         CreateMessage.ChatId = ChatId;
-        var newMessage = await _intermediateChatService.CreateMessage(CreateMessage);
+        var newMessage = await _intermediateMessageService.CreateMessage(CreateMessage);
         await _hubConnection.SendAsync("SendMessage", newMessage.ChatId, newMessage);
         CreateMessage.MessageText = String.Empty;
     }
@@ -225,7 +225,7 @@
                 AmountOfMessagesToTake = _amountOfMessagesToTake
             };
 
-            ServerResponseWithMessages getChatMessages = await _intermediateChatService.GetChatMessages(readChatMessagesDto);
+            ServerResponseWithMessages getChatMessages = await _intermediateMessageService.GetChatMessages(readChatMessagesDto);
 
             CheckIfUserHasAccess(getChatMessages, () => { _chatMessages = getChatMessages.Messages; });
 
