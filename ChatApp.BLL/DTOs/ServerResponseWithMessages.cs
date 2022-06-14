@@ -1,9 +1,9 @@
-﻿using ChatApp.DAL.Entities;
+﻿using ChatApp.BLL.DTOs.ChatDTOs;
 
 namespace ChatApp.BLL.DTOs
 {
     public class ServerResponseWithMessages : ServerResponse
     {
-        public List<Message>? Messages { get; set; }
+        public List<ReadMessageDto>? Messages { get; set; }
     }
 }

@@ -5,11 +5,11 @@ namespace ChatApp.BLL.Interfaces
 {
     public interface IMessageService
     {
-        Task<Message> AddMessage(CreateMessageDto messageDto);
+        Task<ReadMessageDto> AddMessage(CreateMessageDto messageDto);
         Task<int> DeleteMessage(DeleteMessageDto deleteMessageDto);
-        Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending);
-        Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto);
-        Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto);
+        Task<IEnumerable<ReadMessageDto>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending);
+        Task<ReadMessageDto> UpdateMessage(UpdateMessageDto updateMessageDto);
+        Task<ReadMessageDto> ReplyMessage(ReplyMessageDto replyMessageDto);
 
     }
 }

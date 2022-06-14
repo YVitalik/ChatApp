@@ -3,7 +3,6 @@ using ChatApp.BLL.DTOs;
 using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Infrastructure.RequestHelper;
 using ChatApp.BLL.Interfaces;
-using ChatApp.DAL.Entities;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -22,7 +21,7 @@ namespace ChatApp.IntermediateServices
             _httpClient = httpClient;
         }
 
-        public async Task<Message?> CreateMessage(CreateMessageDto messageDto)
+        public async Task<ReadMessageDto?> CreateMessage(CreateMessageDto messageDto)
         {
             var createMessageUrl = _baseUrl + "message/create";
 
@@ -33,7 +32,7 @@ namespace ChatApp.IntermediateServices
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Message>(responseContent);
+                return JsonConvert.DeserializeObject<ReadMessageDto>(responseContent);
             }
             else
             {
@@ -61,7 +60,7 @@ namespace ChatApp.IntermediateServices
             var response = await _httpClient.PostAsync(getChatMessagesUrl, new StringContent(JsonConvert.SerializeObject(readChatMessagesDto), Encoding.UTF8, "application/json"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            var chatMessages = JsonConvert.DeserializeObject<List<Message>>(responseContent);
+            var chatMessages = JsonConvert.DeserializeObject<List<ReadMessageDto>>(responseContent);
 
             return new ServerResponseWithMessages
             {

@@ -60,9 +60,10 @@ namespace ChatApp.BLL.Services
             return _mapper.Map<IEnumerable<ReadChatDto>>(chats);
         }
 
-        public async Task<IEnumerable<Chat>> GetPrivateChats(string userId)
+        public async Task<IEnumerable<ReadChatDto>> GetPrivateChats(string userId)
         {
-            return await _unitOfWork.Room.GetPrivateChats(userId);
+            var privateChats = await _unitOfWork.Room.GetPrivateChats(userId);
+            return _mapper.Map<IEnumerable<ReadChatDto>>(privateChats);
         }
 
         public async Task<IEnumerable<ReadChatDto>> GetUserPublicChats(string userId)

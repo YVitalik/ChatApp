@@ -1,4 +1,4 @@
-﻿using ChatApp.DAL.Entities;
+﻿using ChatApp.BLL.DTOs.ChatDTOs;
 using Microsoft.AspNetCore.SignalR;
 
 namespace ChatApp.BLL.Hubs
@@ -10,12 +10,12 @@ namespace ChatApp.BLL.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
         }
 
-        public async Task SendMessage(int chatId, Message message)
+        public async Task SendMessage(int chatId, ReadMessageDto message)
         {
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", message);
         }
 
-        public async Task SendUpdatedMessage(int chatId, Message message)
+        public async Task SendUpdatedMessage(int chatId, ReadMessageDto message)
         {
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveUpdatedMessage", message);
         }
@@ -25,7 +25,7 @@ namespace ChatApp.BLL.Hubs
             await Clients.Group(chatId.ToString()).SendAsync("UpdateChatWhenMessageIdDeleted", messageId);
         }
 
-        public async Task SendOlderMessages(List<Message> olderMessages)
+        public async Task SendOlderMessages(List<ReadMessageDto> olderMessages)
         {
             await Clients.Caller.SendAsync("ReceiveOldMessages", olderMessages);
         }

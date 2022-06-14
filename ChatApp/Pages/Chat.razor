@@ -84,7 +84,7 @@
 @code{
     [Inject] private IIntermediateMessageService _intermediateMessageService { get; set; }
 
-    private List<Message>? _chatMessages;
+    private List<ReadMessageDto>? _chatMessages;
     private int _amountOfMessagesToTake = 15;
     private IEnumerable<ReadChatDto>? _userChats;
     private CreateMessageDto CreateMessage = new CreateMessageDto();
@@ -169,7 +169,7 @@
 
         if (checkIfStatusCodeOk)
         {
-            var updatedMessage = JsonConvert.DeserializeObject<Message>(await serverResponse.Content.ReadAsStringAsync());
+            var updatedMessage = JsonConvert.DeserializeObject<ReadMessageDto>(await serverResponse.Content.ReadAsStringAsync());
 
             await _hubConnection.SendAsync("SendUpdatedMessage", updatedMessage.ChatId, updatedMessage);
             _newMessageText = String.Empty;
@@ -191,7 +191,7 @@
 
         if (checkIfStatusCodeOk)
         {
-            var repliedMessage = JsonConvert.DeserializeObject<Message>(await serverResponse.Content.ReadAsStringAsync());
+            var repliedMessage = JsonConvert.DeserializeObject<ReadMessageDto>(await serverResponse.Content.ReadAsStringAsync());
 
             if (repliedMessage.ChatId == ChatId)
             {
@@ -233,13 +233,13 @@
                  .WithUrl(NavManager.ToAbsoluteUri("/chat"))
                  .Build();
 
-            _hubConnection.On<Message>("ReceiveMessage", (message) =>
+            _hubConnection.On<ReadMessageDto>("ReceiveMessage", (message) =>
             {
                 _chatMessages.Add(message);
                 InvokeAsync(StateHasChanged);
             });
 
-            _hubConnection.On<Message>("ReceiveUpdatedMessage", (message) =>
+            _hubConnection.On<ReadMessageDto>("ReceiveUpdatedMessage", (message) =>
             {
                 _chatMessages.Where(x => x.Id == message.Id).ToList().ForEach(s => s.Text = message.Text);
                 InvokeAsync(StateHasChanged);
@@ -252,7 +252,7 @@
                 InvokeAsync(StateHasChanged);
             });
 
-            _hubConnection.On<List<Message>>("ReceiveOldMessages", (oldMessages) =>
+            _hubConnection.On<List<ReadMessageDto>>("ReceiveOldMessages", (oldMessages) =>
             {
                 var temporaryChatMessages = _chatMessages.Concat(oldMessages).OrderBy(x => x.CreatedAt).ToList();
                 _chatMessages = temporaryChatMessages;

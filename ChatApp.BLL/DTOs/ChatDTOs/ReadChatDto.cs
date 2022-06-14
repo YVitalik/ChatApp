@@ -1,6 +1,4 @@
-﻿
-
-namespace ChatApp.BLL.DTOs.ChatDTOs
+﻿namespace ChatApp.BLL.DTOs.ChatDTOs
 {
     public class ReadChatDto
     {

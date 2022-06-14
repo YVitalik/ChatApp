@@ -1,6 +1,4 @@
-﻿
-
-namespace ChatApp.DAL.Entities
+﻿namespace ChatApp.DAL.Entities
 {
     public class Message
     {

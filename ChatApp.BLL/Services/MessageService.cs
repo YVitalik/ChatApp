@@ -20,7 +20,7 @@ namespace ChatApp.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<Message> AddMessage(CreateMessageDto messageDto)
+        public async Task<ReadMessageDto> AddMessage(CreateMessageDto messageDto)
         {
             var message = new Message
             {
@@ -34,7 +34,7 @@ namespace ChatApp.BLL.Services
             var messageToReturn = await _unitOfWork.Message.AddMessage(message);
             await _unitOfWork.SaveChangesAsync();
 
-            return messageToReturn;
+            return _mapper.Map<ReadMessageDto>(messageToReturn);
         }
 
         public async Task<int> DeleteMessage(DeleteMessageDto deleteMessageDto)
@@ -53,12 +53,13 @@ namespace ChatApp.BLL.Services
             }
         }
 
-        public async Task<IEnumerable<Message>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending)
+        public async Task<IEnumerable<ReadMessageDto>> GetChatMessages(int chatId, int amountOfMessagesToTake, DateTime? timeOfSending)
         {
-            return await _unitOfWork.Message.GetChatMessages(chatId, amountOfMessagesToTake, timeOfSending);
+            var chatMessages = await _unitOfWork.Message.GetChatMessages(chatId, amountOfMessagesToTake, timeOfSending);
+            return _mapper.Map<IEnumerable<ReadMessageDto>>(chatMessages);
         }
 
-        public async Task<Message> ReplyMessage(ReplyMessageDto replyMessageDto)
+        public async Task<ReadMessageDto> ReplyMessage(ReplyMessageDto replyMessageDto)
         {
             var chat = await _unitOfWork.Room.GetChatByName(replyMessageDto.ChatNameToReply);
 
@@ -99,10 +100,10 @@ namespace ChatApp.BLL.Services
             var messageToReturn = await _unitOfWork.Message.AddMessage(repliedMessage);
             await _unitOfWork.SaveChangesAsync();
 
-            return messageToReturn;
+            return _mapper.Map<ReadMessageDto>(messageToReturn);
         }
 
-        public async Task<Message> UpdateMessage(UpdateMessageDto updateMessageDto)
+        public async Task<ReadMessageDto> UpdateMessage(UpdateMessageDto updateMessageDto)
         {
             var messageFromDb = await _unitOfWork.Message.GetMessage(updateMessageDto.Id);
 
@@ -115,7 +116,7 @@ namespace ChatApp.BLL.Services
 
                     await _unitOfWork.SaveChangesAsync();
 
-                    return messageToReturn;
+                    return _mapper.Map<ReadMessageDto>(messageToReturn);
                 }
                 else
                 {
