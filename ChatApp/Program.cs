@@ -40,6 +40,7 @@ builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddTransient<IMessageService, MessageService>();
 builder.Services.AddTransient<IIntermediateChatService, IntermediateChatService>();
 builder.Services.AddTransient<IIntermediateMessageService, IntemediateMessageService>();
+builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {

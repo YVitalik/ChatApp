@@ -1,5 +1,4 @@
 ﻿using ChatApp.BLL.CustomExceptions;
-using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -78,14 +77,6 @@ namespace ChatApp.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _chatService.JoinRoom(chatId, userId);
             return Ok();
-        }
-
-        [HttpGet("getusers")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = await _chatService.GetAllUsers(currentUserId);
-            return Ok(result);
         }
     }
 }

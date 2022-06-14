@@ -22,11 +22,6 @@ namespace ChatApp.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<List<User>> GetAllUsers(string currentUserId)
-        {
-            return await _userManager.Users.Where(x => x.Id != currentUserId).ToListAsync();
-        }
-
         public async Task CreatePrivateRoom(string rootId, string targetId)
         {
             var privateChatUserNames = await _userManager.Users.Where(x => x.Id == rootId || x.Id == targetId).ToListAsync();

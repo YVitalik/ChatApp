@@ -10,7 +10,6 @@ namespace ChatApp.BLL.Interfaces
         Task<IEnumerable<ReadChatDto>> GetUserPublicChats(string userId);
         Task<IEnumerable<ReadChatDto>> GetPrivateChats(string userId);
         Task JoinRoom(int chatId, string userId);
-        Task<List<User>> GetAllUsers(string currentUserId);
         Task CreatePrivateRoom(string rootId, string targetId);
     }
 }

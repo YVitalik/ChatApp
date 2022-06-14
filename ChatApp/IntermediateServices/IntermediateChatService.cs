@@ -72,7 +72,7 @@ namespace ChatApp.IntermediateServices
 
         public async Task<ServerResponseWithUsers> GetApplicationUsers()
         {
-            var getAllUsersUrl = _baseUrl + "chat/getusers";
+            var getAllUsersUrl = _baseUrl + "user";
 
             await SetAuthorizationHeader(_localStorage, _httpClient);
 
