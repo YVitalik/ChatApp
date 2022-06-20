@@ -13,18 +13,18 @@ namespace ChatApp.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
+        private readonly IUserManagementService _userManagementService;
 
-        public ChatService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager)
+        public ChatService(IUnitOfWork unitOfWork, IMapper mapper, IUserManagementService userManagementService)
         {
-            _userManager = userManager;
+            _userManagementService = userManagementService;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task CreatePrivateRoom(string rootId, string targetId)
         {
-            var privateChatUserNames = await _userManager.Users.Where(x => x.Id == rootId || x.Id == targetId).ToListAsync();
+            var privateChatUserNames = await _userManagementService.GetUsersForPrivateChats(rootId, targetId);
             var checkIfChatExists = await _unitOfWork.Room.GetChatByName(privateChatUserNames[0] + " and " + privateChatUserNames[1] + " private chat");
 
             if (checkIfChatExists != null)

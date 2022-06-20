@@ -4,7 +4,6 @@ using ChatApp.BLL.DTOs.ChatDTOs;
 using ChatApp.BLL.Interfaces;
 using ChatApp.DAL.Entities;
 using ChatApp.DAL.Interfaces;
-using Microsoft.AspNetCore.Identity;
 
 namespace ChatApp.BLL.Services
 {
@@ -12,10 +11,10 @@ namespace ChatApp.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
-        public MessageService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager)
+        private readonly IUserManagementService _userManagementService;
+        public MessageService(IUnitOfWork unitOfWork, IMapper mapper, IUserManagementService userManagementSerivce)
         {
-            _userManager = userManager;
+            _userManagementService = userManagementSerivce;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -69,7 +68,7 @@ namespace ChatApp.BLL.Services
             }
 
             var message = await _unitOfWork.Message.GetMessage(replyMessageDto.MessageId);
-            var messageSenderName = await _userManager.FindByIdAsync(message.SenderId);
+            var messageSenderName = await _userManagementService.GetUserByIdAsync(message.SenderId);
 
             var repliedMessage = new Message();
 
