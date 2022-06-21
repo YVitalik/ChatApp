@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "71hDAhyPwoX40DjsYJDNVHEG+E1Z4qgrQU4vhO9rlE2M6bDUu/Q2CFw4MwfYACoGGo+TW2YjF19lCJO2AEOapw==",
+  "dgSpecHash": "F1Boj9MlSfdiQhkuBAAREi60wLbL9PMoJPlEmgn7UtKB621i+2CxcHAuMppJ1UIYj4FSCAJYZodNqTpdd2JZBA==",
   "success": true,
   "projectFilePath": "C:\\Users\\yuzef\\source\\repos\\ChatApp\\BLL.Tests\\BLL.Tests.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\yuzef\\.nuget\\packages\\castle.core\\5.0.0\\castle.core.5.0.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\fare\\2.1.1\\fare.2.1.1.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\fluentassertions\\6.7.0\\fluentassertions.6.7.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.authentication.certificate\\6.0.5\\microsoft.aspnetcore.authentication.certificate.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.5\\microsoft.aspnetcore.authentication.jwtbearer.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.0\\microsoft.aspnetcore.authorization.6.0.0.nupkg.sha512",
