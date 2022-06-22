@@ -13,40 +13,40 @@ namespace BLL.Tests
 {
     public class MessageServiceTests
     {
-        private readonly Fixture fixture = new Fixture();
-        private readonly MessageService sut;
-        private readonly Mock<IUnitOfWork> moqIUnitOfWork = new Mock<IUnitOfWork>();
-        private readonly Mock<IMapper> moqIMapper = new Mock<IMapper>();
-        private readonly Mock<IUserManagementService> moqIUserManagementService = new Mock<IUserManagementService>();
-        private readonly DateTime? dateTime = null;
+        private readonly Fixture _fixture = new Fixture();
+        private readonly MessageService _sut;
+        private readonly Mock<IUnitOfWork> _moqIUnitOfWork = new Mock<IUnitOfWork>();
+        private readonly Mock<IMapper> _moqIMapper = new Mock<IMapper>();
+        private readonly Mock<IUserManagementService> _moqIUserManagementService = new Mock<IUserManagementService>();
+
         public MessageServiceTests()
         {
-            sut = new MessageService(moqIUnitOfWork.Object, moqIMapper.Object, moqIUserManagementService.Object);
+            _sut = new MessageService(_moqIUnitOfWork.Object, _moqIMapper.Object, _moqIUserManagementService.Object);
 
-            fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+            _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
 
         [Fact]
         public async Task AddMessage_PassCreateMessageDtoObjectToMethod_ShouldCallAddMessageMethodOfUnitOfWork()
         {
             //Arrange
-            var newMessageDto = fixture.Create<CreateMessageDto>();
+            var newMessageDto = _fixture.Create<CreateMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>()));
+            _moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>()));
 
             //Act
-            await sut.AddMessage(newMessageDto);
+            await _sut.AddMessage(newMessageDto);
 
             //Assert
-            moqIUnitOfWork.Verify(x => x.Message.AddMessage(It.IsAny<Message>()), Times.Once);
+            _moqIUnitOfWork.Verify(x => x.Message.AddMessage(It.IsAny<Message>()), Times.Once);
         }
 
         [Fact]
         public async Task AddMessage_PassCreateMessageDtoObjectToMethod_ShouldCreateAndReturnNewMessage()
         {
             //Arrange
-            var newMessage = fixture.Create<Message>();
+            var newMessage = _fixture.Create<Message>();
 
             var newMessageDto = new CreateMessageDto
             {
@@ -56,8 +56,8 @@ namespace BLL.Tests
                 SenderId = newMessage.SenderId
             };
 
-            moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>())).ReturnsAsync(newMessage);
-            moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
+            _moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>())).ReturnsAsync(newMessage);
+            _moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
             {
                 return new ReadMessageDto
                 {
@@ -71,7 +71,7 @@ namespace BLL.Tests
             });
 
             //Act
-            var actual = await sut.AddMessage(newMessageDto);
+            var actual = await _sut.AddMessage(newMessageDto);
 
             //Assert
             actual.Should().NotBeNull();
@@ -81,69 +81,69 @@ namespace BLL.Tests
         public async Task DeleteMessage_PassDeleteMessageDtoObjectToMethod_ShouldDeleteMessageFromDatabaseAndReturnDeletedMessageId()
         {
             //Arrange
-            var deleteMessageDto = fixture.Create<DeleteMessageDto>();
+            var deleteMessageDto = _fixture.Create<DeleteMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Message.DeleteMessage(It.IsAny<int>()));
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(fixture.Build<Message>()
+            _moqIUnitOfWork.Setup(x => x.Message.DeleteMessage(It.IsAny<int>()));
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(_fixture.Build<Message>()
                                                                                                  .With(x => x.SenderId, deleteMessageDto.UserId)
                                                                                                  .Create());
             //Act
-            var actual = await sut.DeleteMessage(deleteMessageDto);
+            var actual = await _sut.DeleteMessage(deleteMessageDto);
 
             //Assert
             actual.Should().Be(deleteMessageDto.MessageId);
-            moqIUnitOfWork.Verify(x => x.Message.DeleteMessage(It.IsAny<int>()), Times.Once);
+            _moqIUnitOfWork.Verify(x => x.Message.DeleteMessage(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
         public async Task DeleteMessage_PassDeleteMessageDtoObjectToMethod_ShouldThrowInvalidUserExceptionWhenUserTriesToDeleteNotHisOwnMessage()
         {
             //Arrange
-            var deleteMessageDto = fixture.Create<DeleteMessageDto>();
+            var deleteMessageDto = _fixture.Create<DeleteMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Message.DeleteMessage(It.IsAny<int>()));
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(fixture.Create<Message>());
+            _moqIUnitOfWork.Setup(x => x.Message.DeleteMessage(It.IsAny<int>()));
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(_fixture.Create<Message>());
 
             //Assert
-            await sut.Invoking(x => x.DeleteMessage(deleteMessageDto)).Should().ThrowAsync<InvalidUserException>();
+            await _sut.Invoking(x => x.DeleteMessage(deleteMessageDto)).Should().ThrowAsync<InvalidUserException>();
         }
 
         [Fact]
         public async Task UpdateMessage_PassUpdateMessageDtoObjectToMethod_ShouldThrowArgumentNullExceptionWhenMessageWithSuchIdDoesntExist()
         {
             //Arrange
-            var updateMessageDto = fixture.Create<UpdateMessageDto>();
+            var updateMessageDto = _fixture.Create<UpdateMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(() => null);
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(() => null);
 
             //Assert
-            await sut.Invoking(x => x.UpdateMessage(updateMessageDto)).Should().ThrowAsync<ArgumentNullException>();
+            await _sut.Invoking(x => x.UpdateMessage(updateMessageDto)).Should().ThrowAsync<ArgumentNullException>();
         }
 
         [Fact]
         public async Task UpdateMessage_PassUpdateMessageDtoObjectToMethod_ShouldThrowInvalidUserExceptionWhenMessageFromDbSenderIdIsNotEqualToUpdateMessageDtoSenderId()
         {
             //Arrange
-            var updateMessageDto = fixture.Create<UpdateMessageDto>();
+            var updateMessageDto = _fixture.Create<UpdateMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(fixture.Create<Message>());
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(_fixture.Create<Message>());
 
             //Assert
-            await sut.Invoking(x => x.UpdateMessage(updateMessageDto)).Should().ThrowAsync<InvalidUserException>();
+            await _sut.Invoking(x => x.UpdateMessage(updateMessageDto)).Should().ThrowAsync<InvalidUserException>();
         }
 
         [Fact]
         public async Task UpdateMessage_PassUpdateMessageDtoObjectToMethod_ShouldUpdateAndReturnUpdatedMessage()
         {
             //Arrange
-            var updateMessageDto = fixture.Create<UpdateMessageDto>();
-            var updatedMessage = fixture.Create<Message>();
+            var updateMessageDto = _fixture.Create<UpdateMessageDto>();
+            var updatedMessage = _fixture.Create<Message>();
 
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(fixture.Build<Message>()
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(It.IsAny<int>())).ReturnsAsync(_fixture.Build<Message>()
                                                                                                  .With(x => x.SenderId, updateMessageDto.SenderId)
                                                                                                  .Create());
-            moqIUnitOfWork.Setup(x => x.Message.UpdateMessage(It.IsAny<Message>())).Returns(updatedMessage);
-            moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
+            _moqIUnitOfWork.Setup(x => x.Message.UpdateMessage(It.IsAny<Message>())).Returns(updatedMessage);
+            _moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
             {
                 return new ReadMessageDto
                 {
@@ -157,7 +157,7 @@ namespace BLL.Tests
             });
 
             //Act
-            var actual = await sut.UpdateMessage(updateMessageDto);
+            var actual = await _sut.UpdateMessage(updateMessageDto);
 
             //Assert
             actual.Should().NotBeNull();
@@ -167,22 +167,22 @@ namespace BLL.Tests
         public async Task ReplyMessage_ReplyMessageDtoObjectToMethod_ShouldThrowArgumentNullExceptionWhenChatWithSuchIdDoesntExist()
         {
             //Arrange
-            var replyMessageDto = fixture.Create<ReplyMessageDto>();
+            var replyMessageDto = _fixture.Create<ReplyMessageDto>();
 
-            moqIUnitOfWork.Setup(x => x.Room.GetChatByName(It.IsAny<string>())).ReturnsAsync(() => null);
+            _moqIUnitOfWork.Setup(x => x.Room.GetChatByName(It.IsAny<string>())).ReturnsAsync(() => null);
 
             //Assert
-            await sut.Invoking(x => x.ReplyMessage(replyMessageDto)).Should().ThrowAsync<ArgumentNullException>();
+            await _sut.Invoking(x => x.ReplyMessage(replyMessageDto)).Should().ThrowAsync<ArgumentNullException>();
         }
 
         [Fact]
         public async Task ReplyMessage_ReplyMessageDtoObjectToMethod_ShouldReplyMessageAndReturnRepliedMessage()
         {
             //Arrange
-            var replyMessageDto = fixture.Create<ReplyMessageDto>();
-            var chatFromDb = fixture.Create<Chat>();
-            var messageFromDb = fixture.Create<Message>();
-            var userFromDb = fixture.Create<User>();
+            var replyMessageDto = _fixture.Create<ReplyMessageDto>();
+            var chatFromDb = _fixture.Create<Chat>();
+            var messageFromDb = _fixture.Create<Message>();
+            var userFromDb = _fixture.Create<User>();
             var expected = new Message
             {
                 ChatId = chatFromDb.Id,
@@ -192,11 +192,11 @@ namespace BLL.Tests
                 CreatedAt = DateTime.Now
             };
 
-            moqIUnitOfWork.Setup(x => x.Room.GetChatByName(It.IsAny<string>())).ReturnsAsync(chatFromDb);
-            moqIUnitOfWork.Setup(x => x.Message.GetMessage(replyMessageDto.MessageId)).ReturnsAsync(messageFromDb);
-            moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>())).ReturnsAsync(expected);
-            moqIUserManagementService.Setup(x => x.GetUserByIdAsync(messageFromDb.SenderId)).ReturnsAsync(userFromDb);
-            moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
+            _moqIUnitOfWork.Setup(x => x.Room.GetChatByName(It.IsAny<string>())).ReturnsAsync(chatFromDb);
+            _moqIUnitOfWork.Setup(x => x.Message.GetMessage(replyMessageDto.MessageId)).ReturnsAsync(messageFromDb);
+            _moqIUnitOfWork.Setup(x => x.Message.AddMessage(It.IsAny<Message>())).ReturnsAsync(expected);
+            _moqIUserManagementService.Setup(x => x.GetUserByIdAsync(messageFromDb.SenderId)).ReturnsAsync(userFromDb);
+            _moqIMapper.Setup(x => x.Map<ReadMessageDto>(It.IsAny<Message>())).Returns((Message source) =>
             {
                 return new ReadMessageDto
                 {
@@ -210,15 +210,15 @@ namespace BLL.Tests
             });
 
             //Act
-            var actual = await sut.ReplyMessage(replyMessageDto);
+            var actual = await _sut.ReplyMessage(replyMessageDto);
 
             //Assert
             actual.Should().NotBeNull();
 
-            moqIUnitOfWork.Verify(x => x.Room.GetChatByName(It.IsAny<string>()), Times.Once);
-            moqIUnitOfWork.Verify(x => x.Message.GetMessage(replyMessageDto.MessageId), Times.Once);
-            moqIUnitOfWork.Verify(x => x.Message.AddMessage(It.IsAny<Message>()), Times.Once);
-            moqIUserManagementService.Verify(x => x.GetUserByIdAsync(messageFromDb.SenderId), Times.Once);
+            _moqIUnitOfWork.Verify(x => x.Room.GetChatByName(It.IsAny<string>()), Times.Once);
+            _moqIUnitOfWork.Verify(x => x.Message.GetMessage(replyMessageDto.MessageId), Times.Once);
+            _moqIUnitOfWork.Verify(x => x.Message.AddMessage(It.IsAny<Message>()), Times.Once);
+            _moqIUserManagementService.Verify(x => x.GetUserByIdAsync(messageFromDb.SenderId), Times.Once);
         }
 
         [Theory]
@@ -231,9 +231,9 @@ namespace BLL.Tests
             var timeOfSending = DateTime.ParseExact(timeOfSendingInString, "yyyy-MM-dd HH:mm:ss",
                                                     System.Globalization.CultureInfo.InvariantCulture);
 
-            moqIUnitOfWork.Setup(x => x.Message.GetChatMessages(1, messagesToTake, timeOfSending))
+            _moqIUnitOfWork.Setup(x => x.Message.GetChatMessages(1, messagesToTake, timeOfSending))
                 .ReturnsAsync(GetTestMessages(messagesToTake, timeOfSending));
-            moqIMapper.Setup(x => x.Map<IEnumerable<ReadMessageDto>>(It.IsAny<IEnumerable<Message>>())).Returns((IEnumerable<Message> source) =>
+            _moqIMapper.Setup(x => x.Map<IEnumerable<ReadMessageDto>>(It.IsAny<IEnumerable<Message>>())).Returns((IEnumerable<Message> source) =>
             {
                 var toReturn = new List<ReadMessageDto>();
 
@@ -256,12 +256,12 @@ namespace BLL.Tests
             });
 
             //Act
-            var actual = await sut.GetChatMessages(1, messagesToTake, timeOfSending);
+            var actual = await _sut.GetChatMessages(1, messagesToTake, timeOfSending);
 
             //Assert
             actual.Count().Should().BeLessThanOrEqualTo(messagesToTake);
             actual.Should().BeOfType<List<ReadMessageDto>>();
-            moqIUnitOfWork.Verify(x => x.Message.GetChatMessages(1, messagesToTake, timeOfSending));
+            _moqIUnitOfWork.Verify(x => x.Message.GetChatMessages(1, messagesToTake, timeOfSending));
         }
 
         private IEnumerable<Message> GetTestMessages(int messagesToTake, DateTime timeOfSending)
@@ -272,12 +272,12 @@ namespace BLL.Tests
             {
                 var message = new Message()
                 {
-                    Id = fixture.Create<int>(),
-                    Name = fixture.Create<string>(),
-                    SenderId = fixture.Create<string>(),
-                    Text = fixture.Create<string>(),
+                    Id = _fixture.Create<int>(),
+                    Name = _fixture.Create<string>(),
+                    SenderId = _fixture.Create<string>(),
+                    Text = _fixture.Create<string>(),
                     CreatedAt = DateTime.Now,
-                    ChatId = fixture.Create<int>()
+                    ChatId = _fixture.Create<int>()
                 };
                 messages.Add(message);
             }
