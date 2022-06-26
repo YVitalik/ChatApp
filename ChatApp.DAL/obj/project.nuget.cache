@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LeeNP6DMijYcFXzeR6x+0I17d5T3JW5ca9Ax8K0UbAownPWt5EI+zEKvrtWshr53qF9XaJBcEKRzqrrYr1tvJw==",
+  "dgSpecHash": "ofEDzBo4U5ADD2iEWbAHivGvaosy6sp4rPdG2LQ4RWwAMDsFVoZn6f1JkNNmjd6dQXBqBf/e7LxDQYaegHxguQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\yuzef\\source\\repos\\ChatApp\\ChatApp.DAL\\ChatApp.DAL.csproj",
   "expectedPackageFiles": [
@@ -31,10 +31,11 @@
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
-    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.5\\microsoft.entityframeworkcore.6.0.5.nupkg.sha512",
-    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.5\\microsoft.entityframeworkcore.abstractions.6.0.5.nupkg.sha512",
-    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.5\\microsoft.entityframeworkcore.analyzers.6.0.5.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.6\\microsoft.entityframeworkcore.6.0.6.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.6\\microsoft.entityframeworkcore.abstractions.6.0.6.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.6\\microsoft.entityframeworkcore.analyzers.6.0.6.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.5\\microsoft.entityframeworkcore.design.6.0.5.nupkg.sha512",
+    "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\6.0.6\\microsoft.entityframeworkcore.inmemory.6.0.6.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.5\\microsoft.entityframeworkcore.relational.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.5\\microsoft.entityframeworkcore.sqlserver.6.0.5.nupkg.sha512",
     "C:\\Users\\yuzef\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.5\\microsoft.entityframeworkcore.tools.6.0.5.nupkg.sha512",

@@ -9,7 +9,7 @@ using ChatApp.DAL.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace BLL.Tests
+namespace BLL.Tests.Moq
 {
     public class ChatServiceTests
     {

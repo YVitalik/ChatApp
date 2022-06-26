@@ -89,3 +89,4 @@ C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\libman.json
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\yuzef\source\repos\ChatApp\ChatApp\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
