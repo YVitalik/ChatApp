@@ -8,7 +8,6 @@ using ChatApp.DAL.Infrastructure;
 using ChatApp.DAL.Infrastructure.Repositories;
 using ChatApp.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
 
 namespace BLL.Tests.InMemoryDb
@@ -17,19 +16,22 @@ namespace BLL.Tests.InMemoryDb
     {
         protected readonly MessageService _sutMessageService;
         protected readonly ChatService _sutChatService;
+        
         protected readonly Fixture _fixture = new Fixture();
+        
         protected readonly AppDbContext _context;
-        protected readonly IRoomRepository _roomRepository;
-        protected readonly IMessageRepository _messageRepository;
+
+        private readonly IRoomRepository _roomRepository;
+        private readonly IMessageRepository _messageRepository;
+        
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly Mock<IMapper> _mapper = new Mock<IMapper>();
         protected readonly Mock<IUserManagementService> _userManagementService = new Mock<IUserManagementService>();
         protected BaseTestsClassInMemoryDb()
         {
             var _contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-                                .UseInMemoryDatabase("MessageServiceTest")
-                                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                                .Options;
+                                      .UseInMemoryDatabase("TestBlazorChatDatabase")
+                                      .Options;
 
             _context = new AppDbContext(_contextOptions);
 
@@ -40,9 +42,9 @@ namespace BLL.Tests.InMemoryDb
             var testMessages = GetTestMessages();
             var testChatUsers = GetTestChatUsers();
 
-            _context.Messages.AddRangeAsync(testMessages);
-            _context.Chats.AddRangeAsync(testChats);
-            _context.ChatUsers.AddRangeAsync(testChatUsers);
+            _context.Messages.AddRange(testMessages);
+            _context.Chats.AddRange(testChats);
+            _context.ChatUsers.AddRange(testChatUsers);
 
             _context.SaveChanges();
 

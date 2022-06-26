@@ -19,20 +19,28 @@ namespace BLL.Tests.InMemoryDb
         {
             //Arrange
             var usersForPrivateChat = new List<User>();
+
+            const string ID_OF_FIRST_USER_OF_PRIVATE_CHAT = "afalfhaslf";
+            const string ID_OF_SECOND_USER_OF_PRIVATE_CHAT = "qoifncoaho";
+
+            const string USERNAME_OF_FIRST_USER_OF_PRIVATE_CHAT = "user1";
+            const string USERNAME_OF_SECOND_USER_OF_PRIVATE_CHAT = "user2";
+
             usersForPrivateChat.Add(new User
             {
-                Id = "afalfhaslf",
-                UserName = "user1"
+                Id = ID_OF_FIRST_USER_OF_PRIVATE_CHAT,
+                UserName = USERNAME_OF_FIRST_USER_OF_PRIVATE_CHAT
             });
             usersForPrivateChat.Add(new User
             {
-                Id = "qoifncoaho",
-                UserName = "user2"
+                Id = ID_OF_SECOND_USER_OF_PRIVATE_CHAT,
+                UserName = USERNAME_OF_SECOND_USER_OF_PRIVATE_CHAT
             });
+            
             _userManagementService.Setup(x => x.GetUsersForPrivateChats(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(usersForPrivateChat);
 
             //Assert
-            await _sutChatService.Invoking(x => x.CreatePrivateRoom("afalfhaslf", "qoifncoaho")).Should().ThrowAsync<ItemWithSuchNameAlreadyExists>();
+            await _sutChatService.Invoking(x => x.CreatePrivateRoom(ID_OF_FIRST_USER_OF_PRIVATE_CHAT, ID_OF_SECOND_USER_OF_PRIVATE_CHAT)).Should().ThrowAsync<ItemWithSuchNameAlreadyExists>();
         }
 
         [Fact]
@@ -40,20 +48,27 @@ namespace BLL.Tests.InMemoryDb
         {
             //Arrange
             var usersForPrivateChat = new List<User>();
+
+            const string ID_OF_FIRST_USER_OF_PRIVATE_CHAT = "afalurjtlh";
+            const string ID_OF_SECOND_USER_OF_PRIVATE_CHAT = "qoifnpiitm";
+
+            const string USERNAME_OF_FIRST_USER_OF_PRIVATE_CHAT = "user3";
+            const string USERNAME_OF_SECOND_USER_OF_PRIVATE_CHAT = "user4";
+
             usersForPrivateChat.Add(new User
             {
-                Id = "afalurjtlh",
-                UserName = "user3"
+                Id = ID_OF_FIRST_USER_OF_PRIVATE_CHAT,
+                UserName = USERNAME_OF_FIRST_USER_OF_PRIVATE_CHAT
             });
             usersForPrivateChat.Add(new User
             {
-                Id = "qoifnpiitm",
-                UserName = "user4"
+                Id = ID_OF_SECOND_USER_OF_PRIVATE_CHAT,
+                UserName = USERNAME_OF_SECOND_USER_OF_PRIVATE_CHAT
             });
-            _userManagementService.Setup(x => x.GetUsersForPrivateChats("afalurjtlh", "qoifnpiitm")).ReturnsAsync(usersForPrivateChat);
+            _userManagementService.Setup(x => x.GetUsersForPrivateChats(ID_OF_FIRST_USER_OF_PRIVATE_CHAT, ID_OF_SECOND_USER_OF_PRIVATE_CHAT)).ReturnsAsync(usersForPrivateChat);
 
             //Act
-            await _sutChatService.CreatePrivateRoom("afalurjtlh", "qoifnpiitm");
+            await _sutChatService.CreatePrivateRoom(ID_OF_FIRST_USER_OF_PRIVATE_CHAT, ID_OF_SECOND_USER_OF_PRIVATE_CHAT);
 
             //Assert
             var checkIfPrivateChatIsAdded = _context.Chats.FirstOrDefault(x => x.Name == "user3 and user4 private chat");
@@ -64,25 +79,25 @@ namespace BLL.Tests.InMemoryDb
         public async Task CreatePublicChat_PassUserIdAndChatNameToMethod_ShouldThrowExceptionIfChatWithSuchNameAlreadyExists()
         {
             //Arrange
-            var chatName = "Chat 1";
-            var userId = "asfkljasfsjf";
+            const string CHAT_NAME = "Chat 1";
+            const string USER_ID = "asfkljasfsjf";
 
             //Assert
-            await _sutChatService.Invoking(x => x.CreatePublicRoom(chatName, userId)).Should().ThrowAsync<ItemWithSuchNameAlreadyExists>();
+            await _sutChatService.Invoking(x => x.CreatePublicRoom(CHAT_NAME, USER_ID)).Should().ThrowAsync<ItemWithSuchNameAlreadyExists>();
         }
 
         [Fact]
         public async Task CreatePublicChat_PassUserIdAndChatNameToMethod_ShouldSuccesfullyAddNewPublicChat()
         {
             //Arrange
-            var chatName = "Hello I am New chat";
-            var userId = "yurbglaiufh";
+            const string CHAT_NAME = "Hello I am New chat";
+            const string USER_ID = "yurbglaiufh";
 
             //Act
-            await _sutChatService.CreatePublicRoom(chatName, userId);
+            await _sutChatService.CreatePublicRoom(CHAT_NAME, USER_ID);
 
             //Assert
-            var checkIfPublicChatIsAdded = _context.Chats.FirstOrDefault(x => x.Name == chatName);
+            var checkIfPublicChatIsAdded = _context.Chats.FirstOrDefault(x => x.Name == CHAT_NAME);
             checkIfPublicChatIsAdded.Should().NotBeNull();
         }
 
@@ -108,20 +123,22 @@ namespace BLL.Tests.InMemoryDb
                 return toReturn;
             });
 
+            const string USER_ID = "testUser";
+
             //Act
             var expected = await _context.Chats
                     .Where(x => x.Type == ChatType.Room &&
                         !x.Users
-                        .Any(y => y.UserId == "testUser"))
+                        .Any(y => y.UserId == USER_ID))
                     .ToListAsync();
             var expectedChatNames = expected.Select(x => x.Name);
             
-            var actual = await _sutChatService.GetAllPublicChats("testUser");
+            var actual = await _sutChatService.GetAllPublicChats(USER_ID);
             var actualChatNames = expected.Select(x => x.Name);
 
             //Assert
             actual.Should().BeOfType<List<ReadChatDto>>();
-            Assert.True(expectedChatNames.SequenceEqual(actualChatNames));
+            actualChatNames.Should().Equal(expectedChatNames);
         }
 
         [Fact]
@@ -146,20 +163,22 @@ namespace BLL.Tests.InMemoryDb
                 return toReturn;
             });
 
+            const string USER_ID = "testUser";
+
             //Act
             var expected = await _context.Chats
                     .Where(x => x.Type == ChatType.Room &&
                         x.Users
-                        .Any(y => y.UserId == "testUser"))
+                        .Any(y => y.UserId == USER_ID))
                     .ToListAsync();
             var expectedChatNames = expected.Select(x => x.Name);
 
-            var actual = await _sutChatService.GetUserPublicChats("testUser");
+            var actual = await _sutChatService.GetUserPublicChats(USER_ID);
             var actualChatNames = expected.Select(x => x.Name);
 
             //Assert
             actual.Should().BeOfType<List<ReadChatDto>>();
-            Assert.True(expectedChatNames.SequenceEqual(actualChatNames));
+            actualChatNames.Should().Equal(expectedChatNames);
         }
 
         [Fact]
@@ -184,33 +203,35 @@ namespace BLL.Tests.InMemoryDb
                 return toReturn;
             });
 
+            const string USER_ID = "testUser";
+
             //Act
             var expected = await _context.Chats
                   .Where(x => x.Type == ChatType.Private
                       && x.Users
-                          .Any(y => y.UserId == "testUser"))
+                          .Any(y => y.UserId == USER_ID))
                   .ToListAsync();
             var expectedChatNames = expected.Select(x => x.Name);
 
-            var actual = await _sutChatService.GetPrivateChats("testUser");
+            var actual = await _sutChatService.GetPrivateChats(USER_ID);
             var actualChatNames = expected.Select(x => x.Name);
 
             //Assert
             actual.Should().BeOfType<List<ReadChatDto>>();
-            Assert.True(expectedChatNames.SequenceEqual(actualChatNames));
+            actualChatNames.Should().Equal(expectedChatNames);
         }
 
         [Fact]
         public async Task JoinRoom_PaasChatIdAndUserIdToTheMethod_ShouldSuccesfullyAddUserToRoom()
         {
             //Arrange
-            var userId = "testUser";
-            var chatId = 7;
+            const string USER_ID = "testUser";
+            const int CHAT_ID = 7;
 
             //Act
-            await _sutChatService.JoinRoom(chatId, userId);
+            await _sutChatService.JoinRoom(CHAT_ID, USER_ID);
 
-            var checkIfUserSuccesfullyJoinedRoom = _context.ChatUsers.FirstOrDefault(x => x.ChatId == chatId && x.UserId == userId);
+            var checkIfUserSuccesfullyJoinedRoom = _context.ChatUsers.FirstOrDefault(x => x.ChatId == CHAT_ID && x.UserId == USER_ID);
 
             //Assert
             checkIfUserSuccesfullyJoinedRoom.Should().NotBeNull();

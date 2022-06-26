@@ -1,17 +1,8 @@
 ﻿using AutoFixture;
-using AutoMapper;
 using ChatApp.BLL.CustomExceptions;
 using ChatApp.BLL.DTOs.ChatDTOs;
-using ChatApp.BLL.Interfaces;
-using ChatApp.BLL.Services;
-using ChatApp.DAL;
 using ChatApp.DAL.Entities;
-using ChatApp.DAL.Infrastructure;
-using ChatApp.DAL.Infrastructure.Repositories;
-using ChatApp.DAL.Interfaces;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Moq;
 
 namespace BLL.Tests.InMemoryDb
@@ -22,45 +13,6 @@ namespace BLL.Tests.InMemoryDb
         {
                 
         }
-        //private readonly MessageService _sut;
-        //private readonly Fixture _fixture = new Fixture();
-        //private readonly AppDbContext _context;
-        //private readonly IRoomRepository _roomRepository;
-        //private readonly IMessageRepository _messageRepository;
-        //private readonly IUnitOfWork _unitOfWork;
-        //private readonly Mock<IMapper> _mapper = new Mock<IMapper>();
-        //private readonly Mock<IUserManagementService> _userManagementService = new Mock<IUserManagementService>();
-        //public MessageServiceTestsInMemoryDb()
-        //{
-        //    var _contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-        //                        .UseInMemoryDatabase("MessageServiceTest")
-        //                        .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-        //                        .Options;
-
-        //    _context = new AppDbContext(_contextOptions);
-
-        //    _context.Database.EnsureDeleted();
-        //    _context.Database.EnsureCreated();
-
-        //    var testChats = GetTestChats();
-        //    var testMessages = GetTestMessages();
-
-        //    _context.Messages.AddRangeAsync(testMessages);
-        //    _context.Chats.AddRangeAsync(testChats);
-
-        //    _context.SaveChanges();
-
-        //    _roomRepository = new RoomRepository(_context);
-        //    _messageRepository = new MessageRepository(_context);
-
-        //    _unitOfWork = new UnitOfWork(_context, _roomRepository, _messageRepository);
-
-        //    _sut = new MessageService(_unitOfWork, _mapper.Object, _userManagementService.Object);
-
-        //    _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
-        //    _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-
-        //}
 
         [Fact]
         public async Task AddMessage_PassCreateMessageDtoObjectToMethod_ShouldAddAndReturnNewMessage()
@@ -92,9 +44,9 @@ namespace BLL.Tests.InMemoryDb
 
             //Assert
             actual.Should().NotBeNull();
-            Assert.Equal(createMessageDto.MessageText, actual.Text);
-            Assert.Equal(createMessageDto.ChatId, actual.ChatId);
-            Assert.Equal(createMessageDto.SenderId, actual.SenderId);
+            actual.Text.Should().Be(createMessageDto.MessageText);
+            actual.ChatId.Should().Be(createMessageDto.ChatId);
+            actual.SenderId.Should().Be(createMessageDto.SenderId);
         }
 
         [Fact]
@@ -109,11 +61,11 @@ namespace BLL.Tests.InMemoryDb
 
             //Act
             var actual = await _sutMessageService.DeleteMessage(deleteMessageDto);
-            var allMessages = await _sutMessageService.GetChatMessages(1, 25, null);
+            var allMessages = _context.Messages;
             var check = allMessages.FirstOrDefault(x => x.Id == deleteMessageDto.MessageId);
 
             //Assert
-            Assert.Equal(deleteMessageDto.MessageId, actual);
+            actual.Should().Be(deleteMessageDto.MessageId);
             check.Should().BeNull();
         }
 
@@ -190,7 +142,7 @@ namespace BLL.Tests.InMemoryDb
 
             //Assert
             actual.Should().NotBeNull();
-            Assert.Equal(updateMessageDto.Text, actual.Text);
+            actual.Text.Should().Be(updateMessageDto.Text);
         }
 
         [Fact]
@@ -273,61 +225,5 @@ namespace BLL.Tests.InMemoryDb
             actual.Should().BeOfType<List<ReadMessageDto>>();
             actual.Count().Should().BeLessThanOrEqualTo(amountOfMessagesToTake);
         }
-
-        //private List<Chat> GetTestChats()
-        //{
-        //    var result = new List<Chat>();
-        //    var id = 1;
-
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        var chat = new Chat
-        //        {
-        //            Id = id,
-        //            Name = "Chat " + id,
-        //            Type = ChatType.Room
-        //        };
-
-        //        result.Add(chat);
-
-        //        id++;
-        //    }
-
-        //    return result;
-        //}
-
-        //private List<Message> GetTestMessages()
-        //{
-        //    var result = new List<Message>();
-        //    var chatId = 1;
-        //    var counterForChatId = 25;
-        //    int id = 1;
-
-        //    for (int i = 0; i < 100; i++)
-        //    {
-        //        if (result.Count >= counterForChatId)
-        //        {
-        //            chatId++;
-        //            counterForChatId += 25;
-        //        }
-
-        //        var message = new Message
-        //        {
-        //            Id = id,
-        //            Name = "Hello",
-        //            CreatedAt = _fixture.Create<DateTime>(),
-        //            SenderId = "user1",
-        //            ChatId = chatId,
-        //            Text = "Hello everyone this is test message!"
-        //        };
-
-        //        result.Add(message);
-
-        //        id++;
-
-        //    }
-
-        //    return result;
-        //}
     }
 }
