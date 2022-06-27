@@ -17,7 +17,7 @@ namespace ChatApp.BLL.Services
 
         public async Task<User> Login(LoginDTO login)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == login.Username);
+            var user = await _userManager.FindByNameAsync(login.Username);
 
             if (user is null)
             {

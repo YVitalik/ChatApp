@@ -11,7 +11,7 @@ namespace BLL.Tests.InMemoryDb
     {
         public MessageServiceTestsInMemoryDb() : base()
         {
-                
+
         }
 
         [Fact]

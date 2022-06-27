@@ -16,21 +16,23 @@ namespace BLL.Tests.InMemoryDb
     {
         protected readonly MessageService _sutMessageService;
         protected readonly ChatService _sutChatService;
-        
+
         protected readonly Fixture _fixture = new Fixture();
-        
         protected readonly AppDbContext _context;
+
+        private readonly DbContextOptions<AppDbContext> _contextOptions;
 
         private readonly IRoomRepository _roomRepository;
         private readonly IMessageRepository _messageRepository;
-        
+
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly Mock<IMapper> _mapper = new Mock<IMapper>();
         protected readonly Mock<IUserManagementService> _userManagementService = new Mock<IUserManagementService>();
+
         protected BaseTestsClassInMemoryDb()
         {
-            var _contextOptions = new DbContextOptionsBuilder<AppDbContext>()
-                                      .UseInMemoryDatabase("TestBlazorChatDatabase")
+            _contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+                                      .UseInMemoryDatabase("TestDb")
                                       .Options;
 
             _context = new AppDbContext(_contextOptions);
@@ -60,7 +62,6 @@ namespace BLL.Tests.InMemoryDb
             _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
         }
-
         private List<ChatUser> GetTestChatUsers()
         {
             var result = new List<ChatUser>();
