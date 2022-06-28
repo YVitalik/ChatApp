@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
+using ChatApp.BLL.CustomExceptions;
 using ChatApp.BLL.DTOs.AdministrationDTOs;
 using ChatApp.BLL.Services;
 using ChatApp.DAL.Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace BLL.Tests.Moq
@@ -66,6 +66,23 @@ namespace BLL.Tests.Moq
         }
 
         [Fact]
+        public async Task Register_PassRegisterDtoToMethod_ShouldThrowExceptionIfUserNameIsAlreadyInUser()
+        {
+            //Arrange
+            var registerUserDto = new RegisterDTO
+            {
+                Username = "testUser",
+                Email = "Gnnnn",
+                Password = "hello"
+            };
+
+            _userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(_fixture.Create<User>());
+
+            //Assert
+            await _sut.Invoking(x => x.Register(registerUserDto)).Should().ThrowAsync<UsernameAlreadyExistsException>();
+        }
+
+        [Fact]
         public async Task Login_PassLoginDtoToMethod_ShouldSuccesfullyLoginUser()
         {
             //Arrange
@@ -83,6 +100,22 @@ namespace BLL.Tests.Moq
 
             //Assert
             actual.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Login_PassLoginDtoToMethod_ShouldThrowExceptionIfUserDoesNotExist()
+        {
+            //Arrange
+            var loginUserDto = new LoginDTO
+            {
+                Username = "usersa",
+                Password = "work"
+            };
+
+            _userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(() => null);
+
+            //Assert
+            await _sut.Invoking(x => x.Login(loginUserDto)).Should().ThrowAsync<UserDoesntExistsException>();
         }
     }
 }

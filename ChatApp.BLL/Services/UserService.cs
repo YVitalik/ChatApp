@@ -3,7 +3,6 @@ using ChatApp.BLL.DTOs.AdministrationDTOs;
 using ChatApp.BLL.Interfaces;
 using ChatApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.BLL.Services
 {
@@ -29,7 +28,7 @@ namespace ChatApp.BLL.Services
 
         public async Task Register(RegisterDTO user)
         {
-            var check = _userManager.Users.FirstOrDefault(x => x.UserName == user.Username || x.Email == user.Email);
+            var check = await _userManager.FindByNameAsync(user.Username);
             
             if (check != null)
             {
